@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   // Worker name. Registered as `projects.workerDeployment.scriptName` via /adopt.
-  "name": "site-maison-escarpe-next",
+  "name": "site-escarpe-website",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-04-01",
   "compatibility_flags": ["nodejs_compat"],
