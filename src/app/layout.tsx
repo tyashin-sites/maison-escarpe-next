@@ -31,7 +31,12 @@ const body = Manrope({
  * customer hosts; on direct *.workers.dev access they 404 and globals.css
  * carries the full token set anyway, so the site is always themed.
  */
-const ROBOTS_NOINDEX = process.env.ROBOTS_NOINDEX === 'true';
+// NOINDEX while the site lives on the platform slug subdomain (no SITE_DOMAIN
+// at build time) or when explicitly asked. The catalog is placeholder until
+// the customer signs off (docs/ASSET-DEBT.md #15) — a preview host must never
+// be indexed. Flip by setting SITE_DOMAIN + ROBOTS_NOINDEX=false as BUILD-time
+// env at cutover; a runtime var alone leaves prerendered pages unchanged.
+const ROBOTS_NOINDEX = process.env.ROBOTS_NOINDEX === 'true' || !SITE.isCustomDomain;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl('/')),
