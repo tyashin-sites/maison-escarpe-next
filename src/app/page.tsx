@@ -74,17 +74,20 @@ export default async function HomePage() {
             </div>
             <div className="hero-in lg:col-span-6" style={{ animationDelay: '60ms' }}>
               <div className="media-frame mx-auto aspect-[3/4] max-w-[520px] lg:aspect-[4/5]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/hero.jpg"
-                  alt="A Maison Escarpe attar bottle on wet dolostone, the escarpment behind it at dusk"
-                  width={1024}
-                  height={1280}
-                  fetchPriority="high"
-                  loading="eager"
-                  decoding="async"
-                  sizes="(max-width: 1024px) 90vw, 45vw"
-                />
+                <picture>
+                  <source srcSet="/hero.webp" type="image/webp" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/hero.jpg"
+                    alt="A Maison Escarpe attar bottle on wet dolostone, the escarpment behind it at dusk"
+                    width={1024}
+                    height={1280}
+                    fetchPriority="high"
+                    loading="eager"
+                    decoding="async"
+                    sizes="(max-width: 1024px) 90vw, 45vw"
+                  />
+                </picture>
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@
     --paper-deep: 39 30% 84%;  /* #E2D9C9 */
     --brass: 36 37% 52%;       /* #B08D57 aged unlacquered brass */
     --brass-soft: 38 43% 65%;  /* #CDB07F brass on ink */
-    --brass-deep: 36 40% 38%;  /* #886A3A brass as small text on paper (AA 4.9:1) */
+    --brass-deep: 36 42% 33%;  /* #77592F brass as small text on paper (AA ≥ 5:1) */
     --garnet: 3 61% 27%;       /* #6E1F1B dark oud garnet — rare */
     --muted-light: 31 13% 37%; /* #6B5F52 secondary text on paper */
     --muted-dark: 34 15% 60%;  /* #A89C8C secondary text on ink */

@@ -13,7 +13,9 @@ export const metadata = pageMetadata({
 interface FaqEntry {
   _id: string;
   question: string;
-  answer: string;
+  /** HTML answer (admin RTE). The public route names it `body`. */
+  body: string;
+  category?: string;
   order?: number;
 }
 
@@ -22,12 +24,16 @@ const API_URL = process.env.TYASHIN_API_URL || 'https://website-api.tyashin.com'
 
 async function loadFaqs(): Promise<FaqEntry[]> {
   try {
-    const res = await fetch(`${API_URL}/api/v1/public/faq?projectId=${PROJECT_ID}`, {
+    // The FAQ store is the e-commerce FAQ collection; its public route lives
+    // under /public/ecommerce/faq (project resolved from the API key) and
+    // returns { entries, grouped }.
+    const res = await fetch(`${API_URL}/api/v1/public/ecommerce/faq?projectId=${PROJECT_ID}`, {
       headers: { 'X-API-Key': process.env.TYASHIN_API_KEY || '' },
       next: { revalidate: 300 },
     });
-    const json = (await res.json()) as { success: boolean; data?: FaqEntry[] };
-    return json.success ? (json.data ?? []) : [];
+    const json = (await res.json()) as { success: boolean; data?: { entries?: FaqEntry[] } | FaqEntry[] };
+    if (!json.success || !json.data) return [];
+    return Array.isArray(json.data) ? json.data : (json.data.entries ?? []);
   } catch (err) {
     console.error('[faq]', err);
     return [];
@@ -43,7 +49,7 @@ export default async function FaqPage() {
         mainEntity: faqs.map((f) => ({
           '@type': 'Question',
           name: f.question,
-          acceptedAnswer: { '@type': 'Answer', text: f.answer.replace(/<[^>]+>/g, ' ') },
+          acceptedAnswer: { '@type': 'Answer', text: f.body.replace(/<[^>]+>/g, ' ') },
         })),
       }
     : null;
@@ -78,7 +84,7 @@ export default async function FaqPage() {
                         +
                       </span>
                     </summary>
-                    <div className="prose-escarpe mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground" dangerouslySetInnerHTML={{ __html: f.answer }} />
+                    <div className="prose-escarpe mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground" dangerouslySetInnerHTML={{ __html: f.body }} />
                   </details>
                 ))}
               </div>

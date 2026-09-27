@@ -73,7 +73,7 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   try {
-    const res = await api.getProducts({ limit: 200 });
+    const res = await api.getProducts({ limit: 100 });
     return (res.data ?? []).map((p: { slug: string }) => ({ slug: p.slug }));
   } catch {
     return [];

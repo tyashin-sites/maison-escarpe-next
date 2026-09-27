@@ -13,7 +13,7 @@ export default function WearScale({ level }: { level: WearLevel }) {
         {(Object.keys(WEAR_LEVELS) as WearLevel[]).map((k, i) => (
           <div key={k}>
             <div className={`wear-stop ${i <= idx ? 'is-on' : ''}`} />
-            <p className={`mt-2 text-[0.6875rem] uppercase tracking-[0.14em] ${i === idx ? 'text-ink' : 'text-muted-foreground/70'}`}>
+            <p className={`mt-2 text-[0.6875rem] uppercase tracking-[0.14em] ${i === idx ? 'text-ink' : 'text-muted-foreground'}`}>
               {k}
             </p>
           </div>
