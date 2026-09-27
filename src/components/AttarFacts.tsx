@@ -41,7 +41,7 @@ export default function AttarFacts({ facts }: { facts: Facts }) {
               ].map(([k, v]) =>
                 v ? (
                   <div key={k} className="bg-paper p-5" data-fx="rise">
-                    <dt className="tt-caps text-[0.625rem] text-brass">{k}</dt>
+                    <dt className="tt-caps text-[0.625rem] text-brass-deep">{k}</dt>
                     <dd className="mt-2 font-display text-lg leading-snug text-ink">{v}</dd>
                   </div>
                 ) : null,
@@ -54,19 +54,19 @@ export default function AttarFacts({ facts }: { facts: Facts }) {
           <dl className="mt-10 grid gap-6 sm:grid-cols-3">
             {facts.oud && (
               <div data-fx="rise">
-                <dt className="tt-caps text-[0.625rem] text-brass">Oud</dt>
+                <dt className="tt-caps text-[0.625rem] text-brass-deep">Oud</dt>
                 <dd className="mt-2 text-sm text-ink/85">{facts.oud}</dd>
               </div>
             )}
             {facts.season && (
               <div data-fx="rise">
-                <dt className="tt-caps text-[0.625rem] text-brass">Season</dt>
+                <dt className="tt-caps text-[0.625rem] text-brass-deep">Season</dt>
                 <dd className="mt-2 text-sm text-ink/85">{facts.season}</dd>
               </div>
             )}
             {facts.batch && (
               <div data-fx="rise">
-                <dt className="tt-caps text-[0.625rem] text-brass">Batch</dt>
+                <dt className="tt-caps text-[0.625rem] text-brass-deep">Batch</dt>
                 <dd className="mt-2 text-sm text-ink/85">{facts.batch}</dd>
               </div>
             )}

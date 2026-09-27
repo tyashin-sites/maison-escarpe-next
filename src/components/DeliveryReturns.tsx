@@ -47,7 +47,7 @@ export default async function DeliveryReturns() {
           <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
           <p className="text-sm text-muted-foreground">
             {returnsSentence}{' '}
-            <Link href="/return-policy" className="text-brass underline underline-offset-2">
+            <Link href="/return-policy" className="text-brass-deep underline underline-offset-2">
               Full policy
             </Link>
           </p>

@@ -63,7 +63,7 @@ export default async function FaqPage() {
             {faqs.length === 0 ? (
               <p className="text-muted-foreground">
                 The questions page is being written. In the meantime,{' '}
-                <Link href="/contact" className="text-brass underline underline-offset-2">
+                <Link href="/contact" className="text-brass-deep underline underline-offset-2">
                   write to the house
                 </Link>
                 .
@@ -74,7 +74,7 @@ export default async function FaqPage() {
                   <details key={f._id} className="group py-5 [&_summary::-webkit-details-marker]:hidden">
                     <summary className="flex cursor-pointer items-start justify-between gap-6 font-display text-xl text-ink">
                       {f.question}
-                      <span className="mt-1 shrink-0 text-brass transition-transform group-open:rotate-45" aria-hidden>
+                      <span className="mt-1 shrink-0 text-brass-deep transition-transform group-open:rotate-45" aria-hidden>
                         +
                       </span>
                     </summary>

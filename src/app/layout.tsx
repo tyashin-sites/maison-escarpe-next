@@ -46,9 +46,10 @@ export const metadata: Metadata = {
   },
   description: SITE.description,
   alternates: { canonical: siteUrl('/') },
-  robots: ROBOTS_NOINDEX
-    ? { index: false, follow: false, googleBot: { index: false, follow: false } }
-    : undefined,
+  // Only the `robots` tag, deliberately: the platform edge strips the
+  // robots+googlebot PAIR as a leftover-canary backstop, and would silently
+  // un-noindex the preview host if both were emitted.
+  robots: ROBOTS_NOINDEX ? { index: false, follow: false } : undefined,
   openGraph: {
     title: 'Maison Escarpe — Forty percent. Four hundred million years.',
     description: SITE.description,

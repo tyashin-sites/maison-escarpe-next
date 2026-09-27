@@ -71,6 +71,7 @@ const config: Config = {
         brass: {
           DEFAULT: 'hsl(var(--brass) / <alpha-value>)',
           soft: 'hsl(var(--brass-soft) / <alpha-value>)',
+          deep: 'hsl(var(--brass-deep) / <alpha-value>)',
         },
         garnet: 'hsl(var(--garnet) / <alpha-value>)',
         'muted-dark': 'hsl(var(--muted-dark) / <alpha-value>)',

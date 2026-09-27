@@ -91,7 +91,7 @@ function wire() {
 
   gsap.utils.toArray<HTMLElement>('[data-fx="words"]').forEach((el) => {
     try {
-      const split = new SplitText(el, { type: 'words', mask: 'words', wordsClass: 'fx-word' });
+      const split = new SplitText(el, { type: 'words', mask: 'words', wordsClass: 'fx-word', aria: 'none' });
       gsap.from(split.words, {
         yPercent: 115,
         duration: 1.1,

@@ -43,7 +43,7 @@ export default function ProductCard({ product, eager = false }: { product: ApiPr
         )}
       </Link>
       <div className="flex flex-1 flex-col p-5">
-        {tier && <p className="tt-caps text-[0.625rem] text-brass">{TIER_LABEL[tier] ?? tier}</p>}
+        {tier && <p className="tt-caps text-[0.625rem] text-brass-deep">{TIER_LABEL[tier] ?? tier}</p>}
         <Link href={href} className="mt-2">
           <h3 className="font-display text-xl leading-tight text-ink transition-colors group-hover:text-stone md:text-[1.35rem]">
             {product.name}

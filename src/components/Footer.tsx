@@ -29,7 +29,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-2">
-            <h4 className="tt-caps mb-5 text-brass-soft">Collections</h4>
+            <p className="tt-caps mb-5 text-brass-soft">Collections</p>
             <nav className="flex flex-col gap-2.5">
               <Link href="/products" className="text-sm text-paper/80 transition-colors hover:text-paper">
                 All attars
@@ -47,7 +47,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-2">
-            <h4 className="tt-caps mb-5 text-brass-soft">The house</h4>
+            <p className="tt-caps mb-5 text-brass-soft">The house</p>
             <nav className="flex flex-col gap-2.5">
               {[
                 { label: 'About', href: '/about' },
@@ -63,7 +63,7 @@ export default function Footer() {
           </div>
 
           <div className="md:col-span-3">
-            <h4 className="tt-caps mb-5 text-brass-soft">Terms</h4>
+            <p className="tt-caps mb-5 text-brass-soft">Terms</p>
             <nav className="flex flex-col gap-2.5">
               {[
                 { label: 'Shipping & returns', href: '/return-policy' },

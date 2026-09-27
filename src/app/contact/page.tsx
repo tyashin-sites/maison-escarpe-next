@@ -35,21 +35,21 @@ export default function ContactPage() {
             <div className="lg:col-span-5">
               <dl className="space-y-8">
                 <div>
-                  <dt className="tt-caps text-brass">Where</dt>
+                  <dt className="tt-caps text-brass-deep">Where</dt>
                   <dd className="mt-2 font-display text-2xl text-ink">
                     {SITE.city}, {SITE.region}, {SITE.country}
                   </dd>
                   <dd className="mt-1 text-sm text-muted-foreground">Composed at the foot of the Niagara Escarpment.</dd>
                 </div>
                 <div>
-                  <dt className="tt-caps text-brass">Shipping</dt>
+                  <dt className="tt-caps text-brass-deep">Shipping</dt>
                   <dd className="mt-2 text-sm leading-relaxed text-ink/85">
                     Courier across Canada and the United States. Oil is alcohol-free, so it travels as an ordinary
                     liquid.
                   </dd>
                 </div>
                 <div>
-                  <dt className="tt-caps text-brass">Allocations</dt>
+                  <dt className="tt-caps text-brass-deep">Allocations</dt>
                   <dd className="mt-2 text-sm leading-relaxed text-ink/85">
                     Private Blend batches are offered to the list before they are listed. Tell us which attar you
                     are waiting for.

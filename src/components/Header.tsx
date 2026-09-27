@@ -24,7 +24,7 @@ export default function Header() {
   return (
     <header className="site-header sticky top-0 z-50 bg-paper/80 backdrop-blur-md">
       <div className="container-x flex h-full items-center justify-between">
-        <Link href="/" className="header-logo text-ink" aria-label="Maison Escarpe — home">
+        <Link href="/" className="header-logo text-ink">
           <Wordmark />
         </Link>
 
