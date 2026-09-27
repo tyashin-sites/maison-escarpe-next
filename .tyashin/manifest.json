@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "framework": "nextjs",
+  "projectId": "6ab98d8af53db5cdd5d093f3",
+  "projectSlug": "escarpe-website",
+  "generatedAt": "2026-09-27T00:00:00.000Z",
+  "pages": {
+    "/": { "file": "src/app/page.tsx", "isServerComponent": true },
+    "/products": { "file": "src/app/products/page.tsx", "isServerComponent": true },
+    "/category/[slug]": { "file": "src/app/category/[slug]/page.tsx", "isServerComponent": true },
+    "/c/[slug]": { "file": "src/app/c/[slug]/page.tsx", "isServerComponent": true },
+    "/products/[slug]": { "file": "src/app/products/[slug]/page.tsx", "isServerComponent": true },
+    "/cart": { "file": "src/app/cart/page.tsx", "isServerComponent": false },
+    "/checkout": { "file": "src/app/checkout/page.tsx", "isServerComponent": false },
+    "/about": { "file": "src/app/about/page.tsx", "isServerComponent": true },
+    "/contact": { "file": "src/app/contact/page.tsx", "isServerComponent": true },
+    "/faq": { "file": "src/app/faq/page.tsx", "isServerComponent": true },
+    "/blog": { "file": "src/app/blog/page.tsx", "isServerComponent": true },
+    "/blog/[slug]": { "file": "src/app/blog/[slug]/page.tsx", "isServerComponent": true },
+    "/privacy-policy": { "file": "src/app/privacy-policy/page.tsx", "isServerComponent": true },
+    "/terms-and-conditions": { "file": "src/app/terms-and-conditions/page.tsx", "isServerComponent": true },
+    "/return-policy": { "file": "src/app/return-policy/page.tsx", "isServerComponent": true },
+    "/sitemap-pages.xml": { "file": "src/app/sitemap-pages.xml/route.ts", "isServerComponent": true }
+  },
+  "tyashinOwnedRoutes": [
+    "/order-status", "/order-status/lookup", "/order-confirmation",
+    "/cart-recovery", "/unsubscribe", "/email-preferences",
+    "/reviews", "/returns/new", "/returns", "/returns/status",
+    "/privacy-request", "/consent-center",
+    "/sitemap.xml", "/robots.txt", "/brand-kit.css", "/tyashin-runtime.js"
+  ]
+}

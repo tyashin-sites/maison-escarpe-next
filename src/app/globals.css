@@ -1,0 +1,742 @@
+/* Fonts are self-hosted via next/font (src/app/layout.tsx) — no render-blocking
+   @import here. next/font exposes --font-display (Bodoni Moda) and --font-body
+   (Manrope) as CSS variables on <html>. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Maison Escarpe design tokens — docs/DESIGN-SPEC.md ("Dolostone & Dusk").
+   All colour values are RAW HSL TRIPLES (never wrapped in hsl()) so Tailwind's
+   <alpha-value> substitution works — tyashin-platform CLAUDE.md §5.
+   ───────────────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    /* Palette */
+    --ink: 24 14% 7%;          /* #14110F bitumen brown-black */
+    --stone: 27 12% 15%;       /* #2A2521 wet dolostone */
+    --stone-light: 28 12% 21%; /* #3B342E */
+    --paper: 38 33% 89%;       /* #EDE6DA limestone cream */
+    --paper-deep: 39 30% 84%;  /* #E2D9C9 */
+    --brass: 36 37% 52%;       /* #B08D57 aged unlacquered brass */
+    --brass-soft: 38 43% 65%;  /* #CDB07F brass on ink */
+    --garnet: 3 61% 27%;       /* #6E1F1B dark oud garnet — rare */
+    --muted-light: 31 13% 37%; /* #6B5F52 secondary text on paper */
+    --muted-dark: 34 15% 60%;  /* #A89C8C secondary text on ink */
+
+    /* Semantic (light ground = paper) */
+    --background: var(--paper);
+    --foreground: var(--ink);
+    --card: 38 33% 92%;
+    --card-foreground: var(--ink);
+    --popover: 38 33% 95%;
+    --popover-foreground: var(--ink);
+    --primary: var(--ink);
+    --primary-foreground: var(--paper);
+    --secondary: var(--paper-deep);
+    --secondary-foreground: var(--ink);
+    --muted: 39 26% 86%;
+    --muted-foreground: var(--muted-light);
+    --accent: var(--brass);
+    --accent-foreground: var(--ink);
+    --destructive: 3 61% 34%;
+    --destructive-foreground: var(--paper);
+    --border: 36 20% 78%;
+    --input: 36 20% 78%;
+    --ring: var(--brass);
+
+    /* Radius language is architectural: a stone edge, not a capsule. */
+    --radius: 0.375rem;
+
+    /* Motion */
+    --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-micro: 150ms;
+    --dur-ui: 300ms;
+    --dur-reveal: 900ms;
+    --dur-hero: 1100ms;
+
+    /* Shadows — ink-cast, never gray; hover adds a brass glow. */
+    --shadow-rest:
+      0 1px 2px rgba(20, 17, 15, 0.08),
+      0 8px 24px rgba(20, 17, 15, 0.06);
+    --shadow-hover:
+      0 2px 6px rgba(20, 17, 15, 0.08),
+      0 16px 48px rgba(176, 141, 87, 0.14),
+      0 24px 64px rgba(20, 17, 15, 0.1);
+
+    /* Sticky header — constant height (CLS law). */
+    --header-h: 72px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: auto;
+    -webkit-font-smoothing: antialiased;
+    color-scheme: light;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+  }
+  ::selection {
+    background: hsl(var(--brass) / 0.55);
+    color: hsl(var(--ink));
+  }
+}
+
+/* Keyboard focus ring — UNLAYERED so no utility can suppress it. */
+:focus-visible {
+  outline: 2px solid hsl(var(--brass));
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+main:focus {
+  outline: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Design-system component classes. CASCADE RULE: every reusable class lives
+   in @layer components so Tailwind utilities always win over it.
+   ───────────────────────────────────────────────────────────────────── */
+@layer components {
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    transform: translateY(-160%);
+    background: hsl(var(--brass));
+    color: hsl(var(--ink));
+    padding: 0.625rem 1.125rem;
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: transform var(--dur-ui) var(--ease-brand);
+  }
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  /* Rhythm */
+  .section {
+    padding-top: clamp(5.5rem, 11vw, 9.5rem);
+    padding-bottom: clamp(5.5rem, 11vw, 9.5rem);
+  }
+  .container-x {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* ── Typography tiers. `tt-` namespace reserved for type; never name a
+     custom class after a Tailwind utility. Hierarchy by size + space. */
+  .tt-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    font-size: clamp(2.9rem, 7vw, 6rem);
+    padding-bottom: 0.04em;
+  }
+  .tt-1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+  }
+  .tt-2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.18;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  }
+  .lead {
+    font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+    line-height: 1.6;
+    color: hsl(var(--muted-foreground));
+  }
+  .eyebrow {
+    font-family: var(--font-body);
+    font-weight: 500;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    line-height: 1;
+    color: hsl(var(--brass));
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 1px;
+    flex: none;
+    background: linear-gradient(90deg, transparent, currentColor);
+    opacity: 0.8;
+  }
+  .eyebrow-center::after {
+    content: '';
+    width: 1.75rem;
+    height: 1px;
+    flex: none;
+    background: linear-gradient(90deg, currentColor, transparent);
+    opacity: 0.8;
+  }
+  .tt-price {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+  .tt-caps {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* Wordmark lockup: MAISON above ESCARPE, type only, never an image. */
+  .wordmark {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1;
+    color: currentColor;
+    text-decoration: none;
+  }
+  .wordmark-top {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.5625rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.3rem;
+    padding-left: 0.05em;
+  }
+  .wordmark-main {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.375rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* ── Surfaces */
+  .hairline {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, hsl(var(--brass) / 0.55) 50%, transparent);
+  }
+  .hairline-solid {
+    height: 1px;
+    background: linear-gradient(90deg, hsl(var(--brass)), hsl(var(--brass) / 0));
+  }
+
+  .card {
+    position: relative;
+    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--background)) 8rem);
+    border: 1px solid hsl(var(--border) / 0.7);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    transition:
+      transform var(--dur-ui) var(--ease-brand),
+      border-color var(--dur-ui) var(--ease-brand),
+      box-shadow var(--dur-ui) var(--ease-brand);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(var(--brass) / 0.7), hsl(var(--brass) / 0.05) 60%, hsl(var(--garnet) / 0.35));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity var(--dur-ui) var(--ease-brand);
+    pointer-events: none;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+  .card:hover::before {
+    opacity: 1;
+  }
+
+  /* Stone card on ink sections — lit top edge, brass hairline on hover. */
+  .stone-card {
+    position: relative;
+    background: linear-gradient(180deg, hsl(var(--stone) / 0.92) 0%, hsl(var(--stone) / 0.7) 100%);
+    border: 1px solid hsl(var(--brass-soft) / 0.14);
+    border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 rgba(237, 230, 218, 0.06);
+    transition:
+      transform var(--dur-ui) var(--ease-brand),
+      border-color var(--dur-ui) var(--ease-brand);
+  }
+  .stone-card:hover {
+    border-color: hsl(var(--brass-soft) / 0.4);
+    transform: translateY(-3px);
+  }
+
+  /* Cursor spotlight (PointerFX writes --mx/--my + .is-spotlit). Brass-cast
+     on paper, paper-cast on stone. Pure lighting; pointer-events off. */
+  .card::after,
+  .stone-card::after,
+  .spot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-ui) var(--ease-brand);
+    background: radial-gradient(
+      300px circle at var(--mx, 50%) var(--my, 50%),
+      hsl(var(--brass) / 0.16),
+      transparent 72%
+    );
+  }
+  .stone-card::after {
+    background: radial-gradient(
+      300px circle at var(--mx, 50%) var(--my, 50%),
+      hsl(var(--paper) / 0.12),
+      transparent 72%
+    );
+  }
+  .card.is-spotlit::after,
+  .stone-card.is-spotlit::after,
+  .spot.is-spotlit::after {
+    opacity: 1;
+  }
+
+  /* Grain — dark sections only (4%). */
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+  }
+
+  /* Dusk aurora — signature #1. Brass/garnet radial drift behind the hero
+     bottle, transform + opacity only. */
+  .dusk {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .dusk::before {
+    content: '';
+    position: absolute;
+    inset: -25%;
+    z-index: -1;
+    background:
+      radial-gradient(45% 40% at 68% 42%, hsl(var(--brass) / 0.26) 0%, transparent 62%),
+      radial-gradient(38% 45% at 30% 70%, hsl(var(--garnet) / 0.32) 0%, transparent 60%),
+      radial-gradient(60% 50% at 55% 95%, hsl(var(--brass) / 0.14) 0%, transparent 65%);
+    filter: blur(44px) saturate(110%);
+    animation: dusk-drift 28s var(--ease-brand) infinite alternate;
+  }
+  @keyframes dusk-drift {
+    from {
+      transform: translate3d(-2%, 1%, 0) scale(1);
+      opacity: 0.85;
+    }
+    to {
+      transform: translate3d(3%, -2%, 0) scale(1.06);
+      opacity: 1;
+    }
+  }
+
+  /* ── Buttons — near-square (2px), inner top light, hover sheen sweep, 1px lift. */
+  .btn {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.75rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    white-space: nowrap;
+    transition:
+      background-color var(--dur-micro) var(--ease-brand),
+      color var(--dur-micro) var(--ease-brand),
+      border-color var(--dur-micro) var(--ease-brand),
+      transform var(--dur-micro) var(--ease-brand),
+      box-shadow var(--dur-micro) var(--ease-brand);
+  }
+  .btn-primary {
+    color: hsl(var(--paper));
+    background: hsl(var(--ink));
+    box-shadow:
+      inset 0 1px 0 hsl(var(--brass-soft) / 0.35),
+      0 1px 2px rgba(20, 17, 15, 0.3);
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 35%, hsl(var(--brass-soft) / 0.35) 50%, transparent 65%);
+    transform: translateX(-120%);
+    pointer-events: none;
+  }
+  .btn-primary:hover {
+    background: hsl(var(--stone));
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--brass-soft) / 0.45),
+      var(--shadow-hover);
+  }
+  .btn-primary:hover::after {
+    transform: translateX(120%);
+    transition: transform 650ms var(--ease-brand);
+  }
+  .btn-primary:disabled {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .btn-brass {
+    color: hsl(var(--ink));
+    background: hsl(var(--brass));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  }
+  .btn-brass:hover {
+    background: hsl(var(--brass-soft));
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: hsl(var(--ink));
+    border: 1px solid hsl(var(--ink) / 0.28);
+  }
+  .btn-ghost:hover {
+    border-color: hsl(var(--brass));
+    color: hsl(var(--ink));
+    background: hsl(var(--brass) / 0.08);
+  }
+  .btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .btn-link::after {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: currentColor;
+    transition: width var(--dur-ui) var(--ease-brand), background-color var(--dur-ui) var(--ease-brand);
+  }
+  .btn-link:hover::after {
+    width: 3rem;
+    background: hsl(var(--brass));
+  }
+
+  /* ── Dark-surface re-tints: add .on-dark to any ink/stone section. */
+  .on-dark {
+    color: hsl(var(--paper));
+  }
+  .on-dark .eyebrow {
+    color: hsl(var(--brass-soft));
+  }
+  .on-dark .lead {
+    color: hsl(var(--muted-dark));
+  }
+  .on-dark .btn-ghost {
+    color: hsl(var(--paper));
+    border-color: hsl(var(--paper) / 0.3);
+  }
+  .on-dark .btn-ghost:hover {
+    border-color: hsl(var(--brass-soft));
+    background: hsl(var(--paper) / 0.06);
+  }
+  .on-dark .btn-primary {
+    color: hsl(var(--ink));
+    background: hsl(var(--paper));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+  .on-dark .btn-primary:hover {
+    background: hsl(var(--brass-soft));
+  }
+  .on-dark .btn-link::after {
+    background: hsl(var(--brass-soft));
+  }
+  .on-dark .hairline {
+    background: linear-gradient(90deg, transparent, hsl(var(--brass-soft) / 0.5) 50%, transparent);
+  }
+
+  /* Nav links: brass hairline grows from the left. */
+  .nav-link {
+    position: relative;
+    padding-bottom: 0.3rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+    transition: color var(--dur-ui) var(--ease-brand);
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: hsl(var(--brass));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-ui) var(--ease-brand);
+  }
+  .nav-link:hover,
+  .nav-link[aria-current='page'] {
+    color: hsl(var(--ink));
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  /* Sticky header — CONSTANT height (CLS law); condense via logo scale + glass. */
+  .site-header {
+    height: var(--header-h);
+    transition:
+      box-shadow var(--dur-ui) var(--ease-brand),
+      background-color var(--dur-ui) var(--ease-brand);
+  }
+  .header-logo {
+    transform-origin: left center;
+    transition: transform var(--dur-ui) var(--ease-brand);
+  }
+  .site-header.is-scrolled {
+    background: hsl(var(--paper) / 0.92);
+    box-shadow:
+      0 1px 0 hsl(var(--brass) / 0.18),
+      0 12px 40px rgba(20, 17, 15, 0.08);
+  }
+  .site-header.is-scrolled .header-logo {
+    transform: scale(0.86);
+  }
+
+  /* Reading-progress hairline — scroll-driven, pure CSS, silent on old engines. */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 60;
+    background: linear-gradient(90deg, hsl(var(--brass)), hsl(var(--brass-soft)));
+    transform-origin: left;
+    transform: scaleX(0);
+    pointer-events: none;
+  }
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      animation: progress-grow linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+  @keyframes progress-grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Hero entrance — pure CSS so the LCP element paints before hydration
+     (addendum §11b). Transform-only on the headline + image. */
+  .hero-in {
+    animation: hero-rise var(--dur-hero) var(--ease-brand) both;
+  }
+  .hero-in-fade {
+    animation: hero-fade var(--dur-hero) var(--ease-brand) both;
+  }
+  @keyframes hero-rise {
+    from {
+      transform: translateY(22px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Masked word reveal (ScrollFX data-fx="words") — below-fold only. */
+  .fx-word {
+    display: inline-block;
+  }
+
+  /* Product image frame — the FRAME owns the ratio (plugin slot contract). */
+  .media-frame {
+    position: relative;
+    overflow: hidden;
+    background: hsl(var(--stone));
+    border-radius: var(--radius);
+  }
+  .media-frame img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 900ms var(--ease-brand), opacity var(--dur-ui) var(--ease-brand);
+  }
+  .group:hover .media-frame img,
+  .media-frame:hover img {
+    transform: scale(1.04);
+  }
+
+  /* Wear scale — three stops, brass fill. */
+  .wear-scale {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .wear-stop {
+    height: 3px;
+    background: hsl(var(--border));
+    border-radius: 999px;
+  }
+  .wear-stop.is-on {
+    background: hsl(var(--brass));
+  }
+
+  /* Form inputs */
+  .field {
+    width: 100%;
+    background: hsl(var(--paper) / 0.6);
+    border: 1px solid hsl(var(--border));
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
+    transition: border-color var(--dur-ui) var(--ease-brand), box-shadow var(--dur-ui) var(--ease-brand);
+  }
+  .field:focus {
+    outline: none;
+    border-color: hsl(var(--brass));
+    box-shadow: 0 0 0 3px hsl(var(--brass) / 0.18);
+  }
+  .field-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Legal / long-form prose */
+  .prose-escarpe h2 {
+    margin-top: 2.25rem;
+    font-size: 1.5rem;
+  }
+  .prose-escarpe h3 {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+  }
+  .prose-escarpe p {
+    margin-top: 0.9rem;
+  }
+  .prose-escarpe ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-top: 0.75rem;
+  }
+  .prose-escarpe ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+    margin-top: 0.75rem;
+  }
+  .prose-escarpe li {
+    margin-top: 0.3rem;
+  }
+  .prose-escarpe a {
+    color: hsl(var(--brass));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-escarpe strong {
+    color: hsl(var(--ink));
+    font-weight: 600;
+  }
+  .prose-escarpe img {
+    border-radius: var(--radius);
+    margin-top: 1.25rem;
+  }
+}
+
+/* Reduced motion — global kill switch every effect obeys. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .dusk::before {
+    animation: none;
+  }
+  .hero-in,
+  .hero-in-fade {
+    animation: none;
+  }
+}

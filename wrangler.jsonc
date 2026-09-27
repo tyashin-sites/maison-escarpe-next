@@ -1,0 +1,38 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Worker name. Registered as `projects.workerDeployment.scriptName` via /adopt.
+  "name": "site-maison-escarpe-next",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Incremental Static Regeneration / fetch cache backing store. Without this
+  // every SSR'd page re-walks the Tyashin API (Mongo in asia-south1) on every
+  // request — ~2.5s TTFB from Canadian POPs. With it, the first hit per URL is
+  // slow and everything inside the revalidation window is ~50ms from any POP.
+  "kv_namespaces": [
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "2d8c855d3d354cc18ca801bc70939fa4"
+    }
+  ],
+  "vars": {
+    // Public storefront API base. The site is a thin renderer over Tyashin's
+    // public e-commerce API — no DB / R2 bindings on this Worker.
+    "TYASHIN_API_URL": "https://website-api.tyashin.com",
+    "TYASHIN_STOREFRONT_URL": "https://website-api.tyashin.com/api/v1/public/ecommerce",
+    "PROJECT_ID": "6ab98d8af53db5cdd5d093f3",
+    "PROJECT_SLUG": "escarpe-website",
+    "BRAND_KIT_CSS_URL": "https://website-api.tyashin.com/brand-kit.css",
+    // Robots gate. TRUE while the catalog is placeholder and the site lives on
+    // the slug subdomain. Flip to "false" as a BUILD-time env at domain cutover
+    // (docs/ASSET-DEBT.md #15) — flipping the var alone leaves prerendered
+    // pages noindexed.
+    "ROBOTS_NOINDEX": "true"
+  }
+  // Secrets (set via the deploy.yml secrets-fetch step):
+  //   TYASHIN_API_KEY — project's public X-API-Key
+}
