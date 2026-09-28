@@ -10,6 +10,10 @@ Every change names the KPI it serves; anything serving none is cut. Cutover to a
 | 3 Catalog | 13 placeholder products with structured descriptions, 2 sizes each (3 ml / 12 ml), AI imagery in one photographic system, discovery set | qa: every product renders; JSON-LD Product valid; prices tiered as ASSET-DEBT #3 | done |
 | 4 SEO/LLM surface | Per-page metadata, canonical = one host, `/sitemap-pages.xml`, FAQPage schema, `ROBOTS_NOINDEX=true` until cutover | seo: no split-brain host; noindex present on preview | done (noindex by design) |
 | 5 Trust & compliance | FAQ (application, separation, shipping, allergens, returns), legal drafts, footer cautions, patch-test line, no longevity numbers | brand+legal: no unsubstantiated claims, no therapeutic language | done (drafts; counsel review owed) |
-| 6 Perf & hardening | Prod build green; Lighthouse mobile ≥ 90; CLS 0; LCP transform-only; fonts subset | qa: `next build` clean; Lighthouse evidence in `audits/` | see audits/ |
-| 7 Launch on slug subdomain | `/adopt`, CI green, live at escarpe-website.sites.tyashin.com, plugins installed (contact-form, chatbot disabled, blog) | qa: live smoke; registered in CUSTOMERS.md + safe-deploy | in progress |
+| 6 Perf & hardening | Prod build green; Lighthouse mobile ≥ 90; CLS 0; LCP transform-only; fonts subset | qa: `next build` clean; Lighthouse evidence in `audits/` | done — home 96 / PDP 93, a11y 100, CLS 0 (audits/phase6) |
+| 7 Launch on slug subdomain | `/adopt`, CI green, live at escarpe-website.sites.tyashin.com, plugins installed (contact-form, chatbot disabled, blog) | qa: live smoke; registered in CUSTOMERS.md + safe-deploy | done (v2 cinematic live, noindex) |
 | 8 Cutover (user-gated) | Customer confirms name + domains; real inputs replace ASSET-DEBT rows; domain connected; SEO Co-Pilot; `ROBOTS_NOINDEX=false` BUILD-time; Stripe | all four lenses GO | pending customer |
+
+
+## v2 (2026-09-27, same day) — customer feedback "not luxurious enough"
+Rebuilt as cinematic chapters (full-bleed hero, oil, three-wall rail, chrome-free attar grid, pinned ritual, manifesto, provenance rows, inline list capture), sticky PDP, brass cursor, transparent-to-glass header; ONE master flacon (rembg-matted) composited onto per-attar plates; 30 ml only; all sales final once shipped; addendum §3b @graph on every page + §13 brand tokens.
