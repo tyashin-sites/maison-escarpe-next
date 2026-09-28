@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import PaginationNav from '@/components/PaginationNav';
 import { api } from '@/lib/api';
 import { pageMetadata } from '@/lib/seo';
@@ -80,6 +81,13 @@ export default async function BlogIndexPage({ searchParams }: { searchParams: Pr
             <PaginationNav currentPage={meta.page} totalPages={meta.totalPages} basePath="/blog" params={{ ...(sp.tag ? { tag: sp.tag } : {}), ...(sp.category ? { category: sp.category } : {}) }} />
           </div>
         </section>
-      </PageFrame>
+      <KnowledgeGraph
+        path="/blog"
+        type="CollectionPage"
+        title="Journal"
+        description="Notes from Maison Escarpe: how to wear oil attars, what oud costs and why, provenance by region."
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'Journal' }]}
+      />
+    </PageFrame>
   );
 }

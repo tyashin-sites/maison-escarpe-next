@@ -1,4 +1,5 @@
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import ContactForm from './ContactForm';
 import { pageMetadata, SITE } from '@/lib/seo';
 
@@ -59,6 +60,13 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
-      </PageFrame>
+      <KnowledgeGraph
+        path="/contact"
+        type="ContactPage"
+        title="Contact"
+        description="Write to Maison Escarpe — join the house list, ask about an attar or a batch, or arrange a private allocation."
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+      />
+    </PageFrame>
   );
 }

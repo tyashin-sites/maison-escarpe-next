@@ -1,8 +1,9 @@
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import PaginationNav from '@/components/PaginationNav';
 import ProductsListing from './ProductsListing';
 import { api } from '@/lib/api';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, siteUrl } from '@/lib/seo';
 import type { ApiCategory, ApiProduct } from '@/lib/types';
 
 export const metadata = pageMetadata({
@@ -84,6 +85,14 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
             />
           </div>
         </section>
-      </PageFrame>
+      <KnowledgeGraph
+        path="/products"
+        type="CollectionPage"
+        title="The Attars"
+        description="Every Maison Escarpe attar: oil-based oud at forty percent concentrate."
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'The attars' }]}
+        itemList={initialProducts.map((p) => ({ name: p.name, url: siteUrl(`/products/${p.slug}`), image: p.images?.[0]?.url }))}
+      />
+    </PageFrame>
   );
 }

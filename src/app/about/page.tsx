@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import ListCapture from '@/components/signature/ListCapture';
 import { pageMetadata, SITE } from '@/lib/seo';
 
@@ -108,6 +109,14 @@ export default function AboutPage() {
       </section>
 
       <ListCapture />
+      <KnowledgeGraph
+        path="/about"
+        type="AboutPage"
+        title="The House"
+        description="Maison Escarpe is a Canadian house of oil-based oud attars at forty percent concentrate, named for the Niagara Escarpment behind Burlington, Ontario."
+        image="/about-cliff.jpg"
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'The house' }]}
+      />
     </PageFrame>
   );
 }

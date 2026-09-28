@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import ProductCard from '@/components/ProductCard';
 import OilChapter from '@/components/signature/OilChapter';
 import CollectionRail from '@/components/signature/CollectionRail';
@@ -8,7 +9,7 @@ import ManifestoBand from '@/components/signature/ManifestoBand';
 import ProvenanceLedger from '@/components/signature/ProvenanceLedger';
 import ListCapture from '@/components/signature/ListCapture';
 import { api } from '@/lib/api';
-import { pageMetadata, SITE } from '@/lib/seo';
+import { pageMetadata, SITE, siteUrl } from '@/lib/seo';
 import type { ApiCategory, ApiProduct, BlogPost } from '@/lib/types';
 
 export const metadata = pageMetadata({
@@ -40,6 +41,8 @@ export default async function HomePage() {
     <PageFrame tone="dark">
       {/* ── I. The hero: full-bleed, the flacon on the ledge, the cliff behind. */}
       <section className="cinema grain" aria-label="Maison Escarpe">
+        <link rel="preload" as="image" href="/hero-wide.webp" media="(min-width: 768px)" />
+        <link rel="preload" as="image" href="/hero-tall.webp" media="(max-width: 767px)" />
         <picture>
           <source media="(max-width: 767px)" srcSet="/hero-tall.webp" type="image/webp" />
           <source media="(max-width: 767px)" srcSet="/hero-tall.jpg" />
@@ -75,7 +78,7 @@ export default async function HomePage() {
               <Link href="/products" className="btn btn-primary">
                 Explore the attars
               </Link>
-              <Link href="/about" className="btn-link text-paper">
+              <Link href="/about" className="btn-link whitespace-nowrap text-paper">
                 The house
               </Link>
             </div>
@@ -174,6 +177,13 @@ export default async function HomePage() {
 
       {/* ── IX. The list */}
       <ListCapture />
+      <KnowledgeGraph
+        path="/"
+        title="Maison Escarpe — Oil-Based Oud Attars, Composed in Canada"
+        description={SITE.description}
+        image={SITE.defaultOgImage}
+        itemList={attars.slice(0, 12).map((p) => ({ name: p.name, url: siteUrl(`/products/${p.slug}`), image: p.images?.[0]?.url }))}
+      />
     </PageFrame>
   );
 }

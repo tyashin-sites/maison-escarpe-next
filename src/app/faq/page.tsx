@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
@@ -41,17 +42,6 @@ async function loadFaqs(): Promise<FaqEntry[]> {
 
 export default async function FaqPage() {
   const faqs = await loadFaqs();
-  const jsonLd = faqs.length
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: faqs.map((f) => ({
-          '@type': 'Question',
-          name: f.question,
-          acceptedAnswer: { '@type': 'Answer', text: f.body.replace(/<[^>]+>/g, ' ') },
-        })),
-      }
-    : null;
 
   return (
     <PageFrame>
@@ -88,7 +78,14 @@ export default async function FaqPage() {
             )}
           </div>
         </section>
-      {jsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />}
+      <KnowledgeGraph
+        path="/faq"
+        type="FAQPage"
+        title="Questions"
+        description="How to wear an oil attar, why the flacon separates, shipping to Canada and the United States, allergens and returns."
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'Questions' }]}
+        faqs={faqs.map((f) => ({ question: f.question, answer: f.body.replace(/<[^>]+>/g, ' ').trim() }))}
+      />
     </PageFrame>
   );
 }

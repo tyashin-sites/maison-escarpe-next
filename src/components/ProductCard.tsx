@@ -40,15 +40,15 @@ export default function ProductCard({ product, eager = false }: { product: ApiPr
           <div className="flex h-full w-full items-center justify-center text-xs text-muted-dark">{product.name}</div>
         )}
       </div>
-      <div className="mt-5 flex items-start justify-between gap-6">
+      <div className="mt-4 flex flex-col gap-2 sm:mt-5 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
         <div className="min-w-0">
           {tier && <p className="tt-caps text-[0.625rem] text-brass-deep">{TIER_LABEL[tier] ?? tier}</p>}
           <h3 className="attar-name mt-1.5 text-ink">
             {product.name} <span className="attar-line" aria-hidden />
           </h3>
-          {line && <p className="mt-2 line-clamp-2 max-w-xs text-sm leading-relaxed text-muted-foreground">{line}</p>}
+          {line && <p className="mt-2 hidden line-clamp-2 max-w-xs text-sm leading-relaxed text-muted-foreground sm:block">{line}</p>}
         </div>
-        <p className="tt-price shrink-0 pt-5 text-xs text-ink/80">{formatPriceExplicit(fromPrice(product), currency)}</p>
+        <p className="tt-price shrink-0 text-xs text-ink/80 sm:pt-5">{formatPriceExplicit(fromPrice(product), currency)}</p>
       </div>
     </Link>
   );

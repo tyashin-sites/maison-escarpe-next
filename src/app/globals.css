@@ -863,8 +863,9 @@ main:focus {
   }
 
   /* ── Ritual chapter: pinned image, three lines revealed by scroll. */
+  /* Unlit floor stays AA (luxury law: contrast in every animation state). */
   .ritual-line {
-    opacity: 0.18;
+    opacity: 0.58;
     transform: translateY(10px);
     transition: none;
   }

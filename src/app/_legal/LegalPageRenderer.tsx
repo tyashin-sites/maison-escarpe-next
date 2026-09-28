@@ -1,4 +1,5 @@
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import { notFound } from 'next/navigation';
 
 const PROJECT_ID = process.env.PROJECT_ID || '6ab98d8af53db5cdd5d093f3';
@@ -44,6 +45,7 @@ export default async function LegalPageRenderer({ slug }: { slug: string }) {
             )}
           </div>
         </section>
-      </PageFrame>
+      <KnowledgeGraph path={`/${slug}`} title={page.title} description={`${page.title} — Maison Escarpe.`} crumbs={[{ label: 'Home', href: '/' }, { label: page.title }]} />
+    </PageFrame>
   );
 }

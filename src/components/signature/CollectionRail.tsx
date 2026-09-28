@@ -16,7 +16,7 @@ export default function CollectionRail({ categories, images }: { categories: Api
   if (tiers.length === 0) return null;
   return (
     <section aria-label="The collections" className="bg-ink">
-      <div className="container-x py-[clamp(4rem,8vw,7rem)] text-paper">
+      <div className="container-x on-dark py-[clamp(4rem,8vw,7rem)] text-paper">
         <p className="eyebrow">The collections</p>
         <h2 className="tt-1 mt-5 max-w-[16ch]" data-fx="words">
           Three walls, one oil.

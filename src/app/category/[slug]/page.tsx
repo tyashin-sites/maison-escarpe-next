@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import ProductsListing from '@/app/products/ProductsListing';
 import PaginationNav from '@/components/PaginationNav';
 import { api, ApiError } from '@/lib/api';
 import { getCategoryLandingHref } from '@/lib/category-routing';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, siteUrl } from '@/lib/seo';
 import { TIER_LINE } from '@/lib/attar';
 import type { ApiCategory, ApiProduct } from '@/lib/types';
 
@@ -106,6 +107,14 @@ export default async function CategoryLandingPage({
             />
           </div>
         </section>
-      </PageFrame>
+      <KnowledgeGraph
+        path={`/category/${slug}`}
+        type="CollectionPage"
+        title={`${category.name} Collection`}
+        description={category.description || TIER_LINE[slug] || ''}
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'The attars', href: '/products' }, { label: category.name }]}
+        itemList={products.map((p) => ({ name: p.name, url: siteUrl(`/products/${p.slug}`), image: p.images?.[0]?.url }))}
+      />
+    </PageFrame>
   );
 }

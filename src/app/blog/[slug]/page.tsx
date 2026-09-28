@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import PageFrame from '@/components/PageFrame';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import { api, ApiError } from '@/lib/api';
 import { pageMetadata, siteUrl, SITE } from '@/lib/seo';
 import type { BlogPost } from '@/lib/types';
 
-const SITE_ORIGIN = siteUrl('/').replace(/\/+$/, '');
 
 // Pre-render every published post at build → served instantly from cache, so
 // clicking a post in the list is immediate (no on-demand SSR round-trip). ISR
@@ -72,26 +72,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   const date = post.publishedAt ? new Date(post.publishedAt) : null;
 
-  // schema.org BlogPosting — GEO/AEO surface for ChatGPT/Perplexity citations.
-  const plainTextBody = (post.content || '').replace(/<[^>]+>/g, ' ').slice(0, 1000);
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.excerpt || plainTextBody.slice(0, 200),
-    image: post.featuredImage ? [post.featuredImage] : undefined,
-    datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
-    author: post.authorName
-      ? { '@type': 'Person', name: post.authorName }
-      : { '@type': 'Organization', name: SITE.name },
-    publisher: {
-      '@type': 'Organization',
-      name: SITE.name,
-    },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_ORIGIN}/blog/${post.slug}` },
-    keywords: post.tags?.join(', '),
-  };
 
   // Render content. The backend says `contentFormat` is either 'html' or
   // 'markdown'. For markdown we'd need a renderer; for now treat both as
@@ -176,9 +156,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           <MoreFromTheBlog currentSlug={post.slug} />
         </article>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      <KnowledgeGraph
+        path={`/blog/${post.slug}`}
+        title={post.title}
+        description={post.excerpt || ''}
+        image={post.featuredImage}
+        crumbs={[{ label: 'Home', href: '/' }, { label: 'Journal', href: '/blog' }, { label: post.title }]}
+        article={post}
       />
     </PageFrame>
   );
