@@ -21,18 +21,24 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        display: ['var(--font-display)', 'Bodoni Moda', 'Didot', 'Georgia', 'serif'],
-        body: ['var(--font-body)', 'Manrope', 'Helvetica Neue', 'sans-serif'],
+        // Addendum §13: heading/body resolve to the brand-kit font variables.
+        heading: ['var(--brand-heading-font)'],
+        body: ['var(--brand-body-font)'],
+        display: ['var(--brand-heading-font)'],
       },
       colors: {
-        border: 'hsl(var(--border) / <alpha-value>)',
+        // Addendum §13 required mappings → the platform --brand-* variables.
+        border: 'var(--brand-border)',
+        surface: 'var(--brand-surface)',
+        'primary-contrast': 'var(--brand-primary-contrast)',
         input: 'hsl(var(--input) / <alpha-value>)',
         ring: 'hsl(var(--ring) / <alpha-value>)',
-        background: 'hsl(var(--background) / <alpha-value>)',
-        foreground: 'hsl(var(--foreground) / <alpha-value>)',
+        background: 'var(--brand-bg)',
+        foreground: 'var(--brand-text)',
         primary: {
-          DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
-          foreground: 'hsl(var(--primary-foreground) / <alpha-value>)',
+          DEFAULT: 'var(--brand-primary)',
+          deep: 'var(--brand-primary-deep)',
+          foreground: 'var(--brand-primary-contrast)',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
@@ -43,11 +49,11 @@ const config: Config = {
           foreground: 'hsl(var(--destructive-foreground) / <alpha-value>)',
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted) / <alpha-value>)',
-          foreground: 'hsl(var(--muted-foreground) / <alpha-value>)',
+          DEFAULT: 'var(--brand-text-muted)',
+          foreground: 'var(--brand-text-muted)',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent) / <alpha-value>)',
+          DEFAULT: 'var(--brand-accent)',
           foreground: 'hsl(var(--accent-foreground) / <alpha-value>)',
         },
         popover: {
@@ -93,9 +99,10 @@ const config: Config = {
         plum: 'hsl(var(--stone) / <alpha-value>)',
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        sm: 'var(--brand-radius-sm)',
+        md: 'var(--brand-radius-md)',
+        lg: 'var(--brand-radius-lg)',
+        full: 'var(--brand-radius-full)',
       },
       boxShadow: {
         rest: 'var(--shadow-rest)',

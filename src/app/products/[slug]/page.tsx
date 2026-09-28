@@ -9,63 +9,10 @@ import ProductDetailClient from './ProductDetailClient';
 import AttarFacts from '@/components/AttarFacts';
 import { api, ApiError } from '@/lib/api';
 import { getCategoryLandingHref } from '@/lib/category-routing';
-import { pageMetadata, SITE, siteUrl } from '@/lib/seo';
+import { pageMetadata, SITE } from '@/lib/seo';
+import KnowledgeGraph from '@/components/KnowledgeGraph';
 import { parseAttar, TIER_LABEL } from '@/lib/attar';
 import type { ProductReviewsPayload, StoreInfo } from '@/lib/types';
-
-/**
- * GSC merchant-listing fields for the baked Offer, from the SAME store facts
- * the "Delivery & returns" block displays. Absent facts → absent fields.
- */
-function merchantListingFields(info?: StoreInfo): Record<string, unknown> {
-  if (!info) return {};
-  const out: Record<string, unknown> = {};
-  const zones = (Array.isArray(info.shippingZones) ? info.shippingZones : [])
-    .filter((z) => z && Array.isArray(z.countries) && z.countries.length > 0)
-    .slice(0, 3);
-  if (zones.length > 0) {
-    out.shippingDetails = zones.map((z) => {
-      const nums = (z.estimatedDays || '').match(/\d+/g);
-      const min = nums ? parseInt(nums[0], 10) : NaN;
-      const max = nums && nums.length > 1 ? parseInt(nums[1], 10) : min;
-      return {
-        '@type': 'OfferShippingDetails',
-        shippingRate: {
-          '@type': 'MonetaryAmount',
-          value: ((typeof z.rate === 'number' && z.rate >= 0 ? z.rate : 0) / 100).toFixed(2),
-          currency: info.currency || 'CAD',
-        },
-        shippingDestination: (z.countries ?? []).slice(0, 10).map((cc) => ({ '@type': 'DefinedRegion', addressCountry: cc })),
-        ...(Number.isFinite(min) && Number.isFinite(max) && max >= min && max <= 90
-          ? {
-              deliveryTime: {
-                '@type': 'ShippingDeliveryTime',
-                transitTime: { '@type': 'QuantitativeValue', minValue: min, maxValue: max, unitCode: 'DAY' },
-              },
-            }
-          : {}),
-      };
-    });
-  }
-  const rp = info.returnPolicy;
-  if (rp?.category === 'not-permitted') {
-    out.hasMerchantReturnPolicy = {
-      '@type': 'MerchantReturnPolicy',
-      applicableCountry: rp.applicableCountry || 'CA',
-      returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
-    };
-  } else if (rp?.category === 'finite' && rp.merchantReturnDays) {
-    out.hasMerchantReturnPolicy = {
-      '@type': 'MerchantReturnPolicy',
-      applicableCountry: rp.applicableCountry || 'CA',
-      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
-      merchantReturnDays: rp.merchantReturnDays,
-      returnMethod: 'https://schema.org/ReturnByMail',
-      returnFees: rp.returnFees === 'free' ? 'https://schema.org/FreeReturn' : 'https://schema.org/ReturnShippingFees',
-    };
-  }
-  return out;
-}
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -138,45 +85,6 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     reviewsEnabled && typeof reviewsPayload?.stats?.averageRating === 'number' ? reviewsPayload.stats : undefined;
   const reviewList = Array.isArray(reviewsPayload?.reviews) ? reviewsPayload.reviews : [];
 
-  // schema.org Product / Offer. Ratings are DATA-DRIVEN: emitted only when
-  // review display is on and real published reviews exist.
-  const inStock = product.trackInventory ? product.stock > 0 : true;
-  const jsonLd: Record<string, unknown> = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: product.name,
-    description: facts.story || product.shortDescription,
-    image: product.images.map((i) => i.url).filter(Boolean),
-    sku: product.sku || undefined,
-    brand: { '@type': 'Brand', name: SITE.name },
-    category: categoryName,
-    offers: {
-      '@type': 'Offer',
-      price: (product.price / 100).toFixed(2),
-      priceCurrency: currency,
-      availability: inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-      url: siteUrl(`/products/${product.slug}`),
-      ...merchantListingFields(storeInfo),
-    },
-    ...(reviewStats && reviewStats.totalReviews > 0
-      ? {
-          aggregateRating: {
-            '@type': 'AggregateRating',
-            ratingValue: Number(reviewStats.averageRating.toFixed(1)),
-            reviewCount: reviewStats.totalReviews,
-          },
-          review: reviewList.slice(0, 3).map((r) => ({
-            '@type': 'Review',
-            author: { '@type': 'Person', name: r.customerName },
-            reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
-            name: r.title || undefined,
-            reviewBody: r.body,
-            datePublished: r.createdAt,
-          })),
-        }
-      : {}),
-  };
-
   const crumbs: Crumb[] = [
     { label: 'Home', href: '/' },
     { label: 'The attars', href: '/products' },
@@ -207,7 +115,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <ReviewsSection productId={product._id} />
         <RelatedProducts slug={product.slug} currency={currency} />
       </div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
+      <KnowledgeGraph
+        path={`/products/${product.slug}`}
+        type="ItemPage"
+        title={product.name}
+        description={product.shortDescription || facts.story.split('\n')[0]}
+        image={product.images?.[0]?.url}
+        crumbs={crumbs}
+        product={{ product, categoryName, storeInfo, reviews: reviewStats ? { averageRating: reviewStats.averageRating, totalReviews: reviewStats.totalReviews } : undefined }}
+      />
     </PageFrame>
   );
 }

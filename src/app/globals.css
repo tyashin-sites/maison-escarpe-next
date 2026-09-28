@@ -11,6 +11,34 @@
    ───────────────────────────────────────────────────────────────────── */
 @layer base {
   :root {
+    /* ── Platform brand tokens (addendum §10/§13 + tyashin-luxury-website §3).
+       Tailwind's generic utilities (bg-primary, text-foreground, font-heading,
+       rounded-md …) resolve to these; the platform's runtime brand-kit.css
+       re-declares the same names on customer hosts so an admin can retune the
+       palette without a rebuild. Values equal the published brand kit. */
+    --brand-primary: #14110F;
+    --brand-primary-deep: #2A2521;
+    --brand-primary-contrast: #EDE6DA;
+    --brand-accent: #B08D57;
+    --brand-bg: #EDE6DA;
+    --brand-paper: #EDE6DA;
+    --brand-surface: #E2D9C9;
+    --brand-text: #14110F;
+    --brand-text-muted: #6B5F52;
+    --brand-muted-dark: #A89C8C;
+    --brand-ink: #14110F;
+    --brand-border: rgba(20, 17, 15, 0.14);
+    --brand-success: #4F7A4A;
+    --brand-warning: #B08D57;
+    --brand-danger: #6E1F1B;
+    --brand-radius-sm: 0px;
+    --brand-radius-md: 0px;
+    --brand-radius-lg: 0px;
+    --brand-radius-full: 999px;
+    --brand-heading-font: var(--font-display), 'Bodoni Moda', 'Didot', Georgia, serif;
+    --brand-body-font: var(--font-body), 'Manrope', 'Helvetica Neue', sans-serif;
+
+    /* ── House palette as RAW HSL TRIPLES (alpha-capable utilities: ink/paper/brass…) */
     --ink: 24 14% 7%;
     --ink-deep: 24 16% 4%;
     --stone: 27 12% 15%;
@@ -75,12 +103,12 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    font-family: var(--brand-body-font);
     font-size: 1rem;
     line-height: 1.65;
   }
   h1, h2, h3, h4 {
-    font-family: var(--font-display);
+    font-family: var(--brand-heading-font);
     font-weight: 400;
     letter-spacing: -0.015em;
     line-height: 1.06;
@@ -614,6 +642,13 @@ main:focus {
     background:
       linear-gradient(180deg, hsl(var(--ink) / 0.55) 0%, hsl(var(--ink) / 0) 30%, hsl(var(--ink) / 0) 55%, hsl(var(--ink) / 0.82) 100%),
       linear-gradient(90deg, hsl(var(--ink) / 0.35) 0%, hsl(var(--ink) / 0) 60%);
+  }
+  /* Mobile: the copy sits at the top, so the veil darkens the top instead. */
+  @media (max-width: 767px) {
+    .cinema-veil-top {
+      background:
+        linear-gradient(180deg, hsl(var(--ink) / 0.86) 0%, hsl(var(--ink) / 0.55) 42%, hsl(var(--ink) / 0) 62%, hsl(var(--ink) / 0.45) 100%);
+    }
   }
   .hero-in {
     animation: hero-rise var(--dur-hero) var(--ease-brand) both;

@@ -53,7 +53,7 @@ export default function InlineReviewForm({ productId }: { productId: string }) {
   if (!checked) return null; // brief — avoids CTA flashing before the check
   if (doneMessage) {
     return (
-      <p className="rounded-md bg-cream p-4 text-sm text-foreground" role="status">
+      <p className=" bg-cream p-4 text-sm text-foreground" role="status">
         {doneMessage}
       </p>
     );
@@ -87,7 +87,7 @@ export default function InlineReviewForm({ productId }: { productId: string }) {
   };
 
   return (
-    <form onSubmit={submit} className="w-full max-w-md rounded-lg border border-border p-4">
+    <form onSubmit={submit} className="w-full max-w-md  border border-border p-4">
       <p className="text-sm font-semibold text-foreground">
         You bought this (order {match.orderNumber}) — how was it?
       </p>
@@ -120,7 +120,7 @@ export default function InlineReviewForm({ productId }: { productId: string }) {
         value={title}
         maxLength={200}
         onChange={(e) => setTitle(e.target.value)}
-        className="mt-3 w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+        className="mt-3 w-full  border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
       />
       <textarea
         required
@@ -129,7 +129,7 @@ export default function InlineReviewForm({ productId }: { productId: string }) {
         maxLength={5000}
         rows={4}
         onChange={(e) => setBody(e.target.value)}
-        className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+        className="mt-2 w-full  border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
       />
 
       {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
@@ -137,7 +137,7 @@ export default function InlineReviewForm({ productId }: { productId: string }) {
       <button
         type="submit"
         disabled={rating < 1 || !body.trim() || submitting}
-        className="mt-3 rounded-full bg-primary px-6 py-2 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="btn btn-primary"
       >
         {submitting ? 'Submitting…' : 'Submit review'}
       </button>

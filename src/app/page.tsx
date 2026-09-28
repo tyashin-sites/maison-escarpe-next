@@ -56,13 +56,15 @@ export default async function HomePage() {
             decoding="async"
           />
         </picture>
-        <div className="cinema-veil" aria-hidden />
-        <div className="container-x relative z-[2] flex min-h-[100svh] flex-col justify-end pb-[clamp(3rem,7vh,6rem)] pt-[calc(var(--header-h)+2rem)] text-paper">
+        <div className="cinema-veil cinema-veil-top md:cinema-veil" aria-hidden />
+        <div className="container-x relative z-[2] flex min-h-[100svh] flex-col justify-start pb-[clamp(3rem,7vh,6rem)] pt-[calc(var(--header-h)+3rem)] text-paper md:justify-end md:pt-[calc(var(--header-h)+2rem)]">
           <p className="eyebrow hero-in-fade text-brass-soft">Oil-based oud attars · Burlington, Ontario</p>
           <h1 className="tt-display hero-in mt-6">
             Forty percent.
             <br />
-            <em className="font-normal text-brass-soft">Four hundred</em> million years.
+            <em className="font-normal text-brass-soft">Four hundred</em>
+            <br />
+            million years.
           </h1>
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <p className="lead hero-in-fade measure text-paper/78" style={{ animationDelay: '140ms' }}>

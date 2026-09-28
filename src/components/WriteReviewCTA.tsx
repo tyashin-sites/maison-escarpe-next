@@ -25,7 +25,7 @@ export default function WriteReviewCTA() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="rounded-full border-2 border-primary px-6 py-2.5 text-sm font-semibold uppercase tracking-wider text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+        className="btn btn-primary"
       >
         Write a review
       </button>
@@ -44,7 +44,7 @@ export default function WriteReviewCTA() {
         placeholder="Order number (e.g. OSH-1234)"
         value={orderNumber}
         onChange={(e) => setOrderNumber(e.target.value)}
-        className="rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+        className=" border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
       />
       <input
         type="email"
@@ -52,19 +52,19 @@ export default function WriteReviewCTA() {
         placeholder="Email used on the order"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+        className=" border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
       />
       <div className="flex gap-2">
         <button
           type="submit"
-          className="rounded-full bg-primary px-6 py-2 text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-opacity hover:opacity-90"
+          className="btn btn-primary"
         >
           Continue
         </button>
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="rounded-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
+          className="-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
         >
           Cancel
         </button>

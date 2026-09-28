@@ -31,9 +31,9 @@ export default async function DeliveryReturns() {
   }
 
   return (
-    <div className="grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2">
+    <div className="border-t border-ink/15">
       {zones.slice(0, 2).map((zone, i) => (
-        <div key={i} className="flex items-start gap-3 bg-paper p-5">
+        <div key={i} className="flex items-start gap-3 border-b border-ink/15 py-5">
           <Truck className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
           <p className="text-sm text-muted-foreground">
             <span className="font-medium text-ink">{zone.name || 'Delivery'}: </span>
@@ -43,7 +43,7 @@ export default async function DeliveryReturns() {
         </div>
       ))}
       {returnsSentence && (
-        <div className="flex items-start gap-3 bg-paper p-5 sm:col-span-2">
+        <div className="flex items-start gap-3 border-b border-ink/15 py-5">
           <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
           <p className="text-sm text-muted-foreground">
             {returnsSentence}{' '}

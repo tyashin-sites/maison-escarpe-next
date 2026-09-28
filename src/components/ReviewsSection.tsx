@@ -44,7 +44,8 @@ export default async function ReviewsSection({ productId }: { productId: string 
 
   return (
     <section id="reviews" className="mt-16">
-      <h2 className="text-2xl font-semibold text-foreground md:text-3xl">Customer Reviews</h2>
+      <p className="eyebrow">Worn by others</p>
+      <h2 className="tt-2 mt-4 text-ink">What the list says.</h2>
 
       {total === 0 ? (
         <div className="mt-6 flex flex-col items-start gap-4">
@@ -77,7 +78,7 @@ export default async function ReviewsSection({ productId }: { productId: string 
                   return (
                     <div key={star} className="flex items-center gap-2 text-xs">
                       <span className="w-6 text-muted-foreground">{star}★</span>
-                      <div className="h-2 flex-1 overflow-hidden rounded-full bg-cream">
+                      <div className="h-2 flex-1 overflow-hidden -full bg-cream">
                         <div className="h-full bg-accent" style={{ width: `${pct}%` }} />
                       </div>
                       <span className="w-8 text-right text-muted-foreground">{count}</span>
@@ -113,7 +114,7 @@ export default async function ReviewsSection({ productId }: { productId: string 
                     {r.body}
                   </p>
                   {r.reply?.body && (
-                    <div className="mt-3 rounded-md bg-cream p-3">
+                    <div className="mt-3  bg-cream p-3">
                       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                         Response from Knotty Affairs
                       </p>
