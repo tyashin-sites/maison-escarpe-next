@@ -1,11 +1,8 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 
 export default function ProductLoading() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main className="flex-1">
+    <PageFrame>
         <div className="container-x py-8 md:py-12">
           <div className="mb-6 h-4 w-40 animate-pulse rounded bg-paper-deep" />
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
@@ -19,8 +16,6 @@ export default function ProductLoading() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+      </PageFrame>
   );
 }

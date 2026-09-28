@@ -10,7 +10,7 @@ interface SectionHeadingProps {
 export default function SectionHeading({ eyebrow, title, subtitle, align = 'left', words = false }: SectionHeadingProps) {
   const center = align === 'center';
   return (
-    <div className={`mb-12 max-w-2xl ${center ? 'mx-auto text-center' : ''}`}>
+    <div className={`mb-[clamp(2.5rem,5vw,4rem)] max-w-3xl ${center ? 'mx-auto text-center' : ''}`}>
       <p className={`eyebrow mb-5 ${center ? 'eyebrow-center' : ''}`}>{eyebrow}</p>
       <h2 className="tt-1" {...(words ? { 'data-fx': 'words' } : { 'data-fx': 'rise' })}>
         {title}

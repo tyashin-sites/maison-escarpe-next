@@ -25,9 +25,9 @@ export default async function DeliveryReturns() {
 
   let returnsSentence: string | null = null;
   if (rp?.category === 'not-permitted') {
-    returnsSentence = `Oil is a personal thing: all sales are final once opened. Damaged, defective or wrong items are replaced or refunded when reported within ${rp.defectiveItemWindowDays ?? 7} days of delivery.`;
+    returnsSentence = `All sales are final once an order has shipped. Anything damaged, leaking or not as ordered is replaced or refunded when reported within ${rp.defectiveItemWindowDays ?? 7} days of delivery.`;
   } else if (rp?.category === 'finite' && rp.merchantReturnDays) {
-    returnsSentence = `Unopened, sealed bottles may be returned within ${rp.merchantReturnDays} days of delivery${rp.returnFees === 'free' ? ' with return shipping covered' : ''}.`;
+    returnsSentence = `Unopened, sealed flacons may be returned within ${rp.merchantReturnDays} days of delivery${rp.returnFees === 'free' ? ' with return shipping covered' : ''}.`;
   }
 
   return (

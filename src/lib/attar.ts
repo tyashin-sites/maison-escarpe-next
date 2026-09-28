@@ -103,8 +103,8 @@ export const RITUAL = {
   eyebrow: 'Shake to awaken',
   title: 'Natural resins settle. That is the point.',
   lines: [
-    'Nothing in the bottle is added to keep it uniform: no solubilisers, no stabilisers.',
-    'Turn the bottle over twice and give it a gentle shake before each wear so the oil is even.',
-    'Two sprays. Pulse points, collarbone, the inside of a cuff. Let it warm before you judge it.',
+    'Nothing in the flacon is added to keep it uniform: no solubilisers, no stabilisers. The resins settle.',
+    'Turn the flacon over twice and shake it gently before each wear, so every spray carries the whole composition.',
+    'Two sprays. Pulse points, the collarbone, the inside of a cuff. Let it warm on the skin before you judge it.',
   ],
 };

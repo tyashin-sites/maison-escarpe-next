@@ -1,32 +1,29 @@
-/* Fonts are self-hosted via next/font (src/app/layout.tsx) — no render-blocking
-   @import here. next/font exposes --font-display (Bodoni Moda) and --font-body
-   (Manrope) as CSS variables on <html>. */
+/* Fonts are self-hosted via next/font (src/app/layout.tsx). next/font exposes
+   --font-display (Bodoni Moda) and --font-body (Manrope) on <html>. */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────────────────────────────────
-   Maison Escarpe design tokens — docs/DESIGN-SPEC.md ("Dolostone & Dusk").
-   All colour values are RAW HSL TRIPLES (never wrapped in hsl()) so Tailwind's
-   <alpha-value> substitution works — tyashin-platform CLAUDE.md §5.
+   Maison Escarpe tokens — docs/DESIGN-SPEC.md ("Dolostone & Dusk", v2:
+   cinematic). RAW HSL TRIPLES only (never wrapped) so <alpha-value> works.
    ───────────────────────────────────────────────────────────────────── */
 @layer base {
   :root {
-    /* Palette */
-    --ink: 24 14% 7%;          /* #14110F bitumen brown-black */
-    --stone: 27 12% 15%;       /* #2A2521 wet dolostone */
-    --stone-light: 28 12% 21%; /* #3B342E */
-    --paper: 38 33% 89%;       /* #EDE6DA limestone cream */
-    --paper-deep: 39 30% 84%;  /* #E2D9C9 */
-    --brass: 36 37% 52%;       /* #B08D57 aged unlacquered brass */
-    --brass-soft: 38 43% 65%;  /* #CDB07F brass on ink */
-    --brass-deep: 36 42% 33%;  /* #77592F brass as small text on paper (AA ≥ 5:1) */
-    --garnet: 3 61% 27%;       /* #6E1F1B dark oud garnet — rare */
-    --muted-light: 31 13% 37%; /* #6B5F52 secondary text on paper */
-    --muted-dark: 34 15% 60%;  /* #A89C8C secondary text on ink */
+    --ink: 24 14% 7%;
+    --ink-deep: 24 16% 4%;
+    --stone: 27 12% 15%;
+    --stone-light: 28 12% 21%;
+    --paper: 38 33% 89%;
+    --paper-deep: 39 30% 84%;
+    --brass: 36 37% 52%;
+    --brass-soft: 38 43% 65%;
+    --brass-deep: 36 42% 33%;
+    --garnet: 3 61% 27%;
+    --muted-light: 31 13% 37%;
+    --muted-dark: 34 15% 60%;
 
-    /* Semantic (light ground = paper) */
     --background: var(--paper);
     --foreground: var(--ink);
     --card: 38 33% 92%;
@@ -47,17 +44,14 @@
     --input: 36 20% 78%;
     --ring: var(--brass);
 
-    /* Radius language is architectural: a stone edge, not a capsule. */
-    --radius: 0.375rem;
+    --radius: 0;
 
-    /* Motion */
     --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
     --dur-micro: 150ms;
-    --dur-ui: 300ms;
-    --dur-reveal: 900ms;
-    --dur-hero: 1100ms;
+    --dur-ui: 320ms;
+    --dur-reveal: 1000ms;
+    --dur-hero: 1400ms;
 
-    /* Shadows — ink-cast, never gray; hover adds a brass glow. */
     --shadow-rest:
       0 1px 2px rgba(20, 17, 15, 0.08),
       0 8px 24px rgba(20, 17, 15, 0.06);
@@ -66,8 +60,7 @@
       0 16px 48px rgba(176, 141, 87, 0.14),
       0 24px 64px rgba(20, 17, 15, 0.1);
 
-    /* Sticky header — constant height (CLS law). */
-    --header-h: 72px;
+    --header-h: 76px;
   }
 }
 
@@ -90,28 +83,25 @@
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.015em;
-    line-height: 1.08;
+    line-height: 1.06;
   }
   ::selection {
     background: hsl(var(--brass) / 0.55);
     color: hsl(var(--ink));
   }
+  img {
+    display: block;
+  }
 }
 
-/* Keyboard focus ring — UNLAYERED so no utility can suppress it. */
 :focus-visible {
   outline: 2px solid hsl(var(--brass));
   outline-offset: 3px;
-  border-radius: 2px;
 }
 main:focus {
   outline: none;
 }
 
-/* ─────────────────────────────────────────────────────────────────────────
-   Design-system component classes. CASCADE RULE: every reusable class lives
-   in @layer components so Tailwind utilities always win over it.
-   ───────────────────────────────────────────────────────────────────── */
 @layer components {
   .skip-link {
     position: fixed;
@@ -122,10 +112,9 @@ main:focus {
     background: hsl(var(--brass));
     color: hsl(var(--ink));
     padding: 0.625rem 1.125rem;
-    border-radius: 2px;
     font-weight: 600;
-    font-size: 0.875rem;
-    letter-spacing: 0.08em;
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     transition: transform var(--dur-ui) var(--ease-brand);
   }
@@ -134,55 +123,58 @@ main:focus {
     transform: translateY(0);
   }
 
-  /* Rhythm */
+  /* ── Rhythm: full-bleed sections, a measure for text. */
   .section {
-    padding-top: clamp(5.5rem, 11vw, 9.5rem);
-    padding-bottom: clamp(5.5rem, 11vw, 9.5rem);
+    padding-top: clamp(6rem, 12vw, 11rem);
+    padding-bottom: clamp(6rem, 12vw, 11rem);
   }
   .container-x {
-    max-width: 80rem;
+    max-width: 90rem;
     margin-inline: auto;
-    padding-inline: 1.5rem;
+    padding-inline: clamp(1.25rem, 4vw, 4rem);
   }
-  @media (min-width: 768px) {
-    .container-x {
-      padding-inline: 2.5rem;
-    }
+  .measure {
+    max-width: 38rem;
   }
 
-  /* ── Typography tiers. `tt-` namespace reserved for type; never name a
-     custom class after a Tailwind utility. Hierarchy by size + space. */
+  /* ── Type tiers (`tt-` namespace). Hierarchy by size and air. */
   .tt-display {
     font-family: var(--font-display);
     font-weight: 400;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
     line-height: 1.05;
-    font-size: clamp(2.9rem, 7vw, 6rem);
-    padding-bottom: 0.04em;
+    font-size: clamp(3rem, 8.5vw, 8rem);
   }
   .tt-1 {
     font-family: var(--font-display);
     font-weight: 400;
-    letter-spacing: -0.015em;
-    line-height: 1.1;
-    font-size: clamp(1.9rem, 3.6vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.06;
+    font-size: clamp(2.25rem, 5vw, 4.5rem);
   }
   .tt-2 {
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.01em;
-    line-height: 1.18;
-    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    line-height: 1.12;
+    font-size: clamp(1.6rem, 2.8vw, 2.5rem);
+  }
+  .tt-numeral {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    font-size: clamp(7rem, 22vw, 20rem);
   }
   .lead {
-    font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+    font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
     line-height: 1.6;
     color: hsl(var(--muted-foreground));
   }
   .eyebrow {
     font-family: var(--font-body);
     font-weight: 500;
-    letter-spacing: 0.26em;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     font-size: 0.6875rem;
     line-height: 1;
@@ -207,21 +199,24 @@ main:focus {
     background: linear-gradient(90deg, currentColor, transparent);
     opacity: 0.8;
   }
+  .eyebrow-bare::before,
+  .eyebrow-bare::after {
+    display: none;
+  }
   .tt-price {
     font-family: var(--font-body);
     font-weight: 500;
     font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
   }
   .tt-caps {
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 0.75rem;
-    letter-spacing: 0.16em;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
   }
 
-  /* Wordmark lockup: MAISON above ESCARPE, type only, never an image. */
   .wordmark {
     display: inline-flex;
     flex-direction: column;
@@ -234,21 +229,21 @@ main:focus {
     font-family: var(--font-body);
     font-weight: 500;
     font-size: 0.5625rem;
-    letter-spacing: 0.34em;
+    letter-spacing: 0.36em;
     text-transform: uppercase;
     opacity: 0.75;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.32rem;
     padding-left: 0.05em;
   }
   .wordmark-main {
     font-family: var(--font-display);
     font-weight: 500;
     font-size: 1.375rem;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
   }
 
-  /* ── Surfaces */
+  /* ── Hairlines */
   .hairline {
     height: 1px;
     border: 0;
@@ -258,82 +253,52 @@ main:focus {
     height: 1px;
     background: linear-gradient(90deg, hsl(var(--brass)), hsl(var(--brass) / 0));
   }
+  .rule {
+    height: 1px;
+    background: hsl(var(--ink) / 0.14);
+  }
+  .on-dark .rule {
+    background: hsl(var(--paper) / 0.14);
+  }
 
+  /* ── Surfaces (kept for transactional pages) */
   .card {
     position: relative;
-    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(var(--background)) 8rem);
+    background: hsl(var(--card));
     border: 1px solid hsl(var(--border) / 0.7);
-    border-radius: var(--radius);
     box-shadow: var(--shadow-rest);
     transition:
       transform var(--dur-ui) var(--ease-brand),
       border-color var(--dur-ui) var(--ease-brand),
       box-shadow var(--dur-ui) var(--ease-brand);
   }
-  .card::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg, hsl(var(--brass) / 0.7), hsl(var(--brass) / 0.05) 60%, hsl(var(--garnet) / 0.35));
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity var(--dur-ui) var(--ease-brand);
-    pointer-events: none;
-  }
   .card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
+    border-color: hsl(var(--brass) / 0.5);
   }
-  .card:hover::before {
-    opacity: 1;
-  }
-
-  /* Stone card on ink sections — lit top edge, brass hairline on hover. */
   .stone-card {
     position: relative;
     background: linear-gradient(180deg, hsl(var(--stone) / 0.92) 0%, hsl(var(--stone) / 0.7) 100%);
     border: 1px solid hsl(var(--brass-soft) / 0.14);
-    border-radius: var(--radius);
     box-shadow: inset 0 1px 0 rgba(237, 230, 218, 0.06);
-    transition:
-      transform var(--dur-ui) var(--ease-brand),
-      border-color var(--dur-ui) var(--ease-brand);
+    transition: border-color var(--dur-ui) var(--ease-brand);
   }
   .stone-card:hover {
     border-color: hsl(var(--brass-soft) / 0.4);
-    transform: translateY(-3px);
   }
-
-  /* Cursor spotlight (PointerFX writes --mx/--my + .is-spotlit). Brass-cast
-     on paper, paper-cast on stone. Pure lighting; pointer-events off. */
   .card::after,
   .stone-card::after,
   .spot::after {
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: inherit;
     pointer-events: none;
     opacity: 0;
     transition: opacity var(--dur-ui) var(--ease-brand);
-    background: radial-gradient(
-      300px circle at var(--mx, 50%) var(--my, 50%),
-      hsl(var(--brass) / 0.16),
-      transparent 72%
-    );
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), hsl(var(--brass) / 0.14), transparent 72%);
   }
-  .stone-card::after {
-    background: radial-gradient(
-      300px circle at var(--mx, 50%) var(--my, 50%),
-      hsl(var(--paper) / 0.12),
-      transparent 72%
-    );
+  .stone-card::after,
+  .on-dark .spot::after {
+    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), hsl(var(--paper) / 0.1), transparent 72%);
   }
   .card.is-spotlit::after,
   .stone-card.is-spotlit::after,
@@ -341,7 +306,6 @@ main:focus {
     opacity: 1;
   }
 
-  /* Grain — dark sections only (4%). */
   .grain {
     position: relative;
   }
@@ -350,13 +314,13 @@ main:focus {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.045;
+    opacity: 0.05;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.7'/></svg>");
+    z-index: 1;
   }
 
-  /* Dusk aurora — signature #1. Brass/garnet radial drift behind the hero
-     bottle, transform + opacity only. */
+  /* Dusk aurora — brass/garnet radial drift (transform + opacity only). */
   .dusk {
     position: relative;
     isolation: isolate;
@@ -385,7 +349,7 @@ main:focus {
     }
   }
 
-  /* ── Buttons — near-square (2px), inner top light, hover sheen sweep, 1px lift. */
+  /* ── Buttons: square edges (a stone edge, not a capsule). */
   .btn {
     position: relative;
     overflow: hidden;
@@ -393,13 +357,12 @@ main:focus {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.9rem 1.75rem;
+    padding: 1rem 2rem;
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 0.8125rem;
-    letter-spacing: 0.14em;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    border-radius: 2px;
     white-space: nowrap;
     transition:
       background-color var(--dur-micro) var(--ease-brand),
@@ -411,9 +374,7 @@ main:focus {
   .btn-primary {
     color: hsl(var(--paper));
     background: hsl(var(--ink));
-    box-shadow:
-      inset 0 1px 0 hsl(var(--brass-soft) / 0.35),
-      0 1px 2px rgba(20, 17, 15, 0.3);
+    box-shadow: inset 0 1px 0 hsl(var(--brass-soft) / 0.35);
   }
   .btn-primary::after {
     content: '';
@@ -426,13 +387,11 @@ main:focus {
   .btn-primary:hover {
     background: hsl(var(--stone));
     transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 hsl(var(--brass-soft) / 0.45),
-      var(--shadow-hover);
+    box-shadow: inset 0 1px 0 hsl(var(--brass-soft) / 0.45), var(--shadow-hover);
   }
   .btn-primary:hover::after {
     transform: translateX(120%);
-    transition: transform 650ms var(--ease-brand);
+    transition: transform 700ms var(--ease-brand);
   }
   .btn-primary:disabled {
     opacity: 0.55;
@@ -450,36 +409,34 @@ main:focus {
   .btn-ghost {
     background: transparent;
     color: hsl(var(--ink));
-    border: 1px solid hsl(var(--ink) / 0.28);
+    border: 1px solid hsl(var(--ink) / 0.3);
   }
   .btn-ghost:hover {
     border-color: hsl(var(--brass));
-    color: hsl(var(--ink));
     background: hsl(var(--brass) / 0.08);
   }
   .btn-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.75rem;
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 0.8125rem;
-    letter-spacing: 0.14em;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
   }
   .btn-link::after {
     content: '';
-    width: 2rem;
+    width: 2.25rem;
     height: 1px;
     background: currentColor;
     transition: width var(--dur-ui) var(--ease-brand), background-color var(--dur-ui) var(--ease-brand);
   }
   .btn-link:hover::after {
-    width: 3rem;
+    width: 3.5rem;
     background: hsl(var(--brass));
   }
 
-  /* ── Dark-surface re-tints: add .on-dark to any ink/stone section. */
   .on-dark {
     color: hsl(var(--paper));
   }
@@ -491,7 +448,7 @@ main:focus {
   }
   .on-dark .btn-ghost {
     color: hsl(var(--paper));
-    border-color: hsl(var(--paper) / 0.3);
+    border-color: hsl(var(--paper) / 0.32);
   }
   .on-dark .btn-ghost:hover {
     border-color: hsl(var(--brass-soft));
@@ -512,14 +469,15 @@ main:focus {
     background: linear-gradient(90deg, transparent, hsl(var(--brass-soft) / 0.5) 50%, transparent);
   }
 
-  /* Nav links: brass hairline grows from the left. */
+  /* ── Header: transparent over dark heroes, paper glass once scrolled.
+     Bar height is CONSTANT (CLS law); condense = logo scale + glass. */
   .nav-link {
     position: relative;
     padding-bottom: 0.3rem;
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 0.75rem;
-    letter-spacing: 0.16em;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: hsl(var(--muted-foreground));
     transition: color var(--dur-ui) var(--ease-brand);
@@ -544,29 +502,60 @@ main:focus {
   .nav-link[aria-current='page']::after {
     transform: scaleX(1);
   }
-
-  /* Sticky header — CONSTANT height (CLS law); condense via logo scale + glass. */
   .site-header {
     height: var(--header-h);
+    color: hsl(var(--ink));
+    background: transparent;
     transition:
       box-shadow var(--dur-ui) var(--ease-brand),
-      background-color var(--dur-ui) var(--ease-brand);
+      background-color var(--dur-ui) var(--ease-brand),
+      color var(--dur-ui) var(--ease-brand);
+  }
+  .site-header[data-tone='dark'] {
+    color: hsl(var(--paper));
+  }
+  .site-header[data-tone='dark'] .nav-link,
+  .site-header[data-tone='dark'] .header-icon {
+    color: hsl(var(--paper) / 0.78);
+  }
+  .site-header[data-tone='dark'] .nav-link:hover,
+  .site-header[data-tone='dark'] .nav-link[aria-current='page'],
+  .site-header[data-tone='dark'] .header-icon:hover {
+    color: hsl(var(--paper));
+  }
+  .site-header[data-tone='dark'] .nav-link::after {
+    background: hsl(var(--brass-soft));
   }
   .header-logo {
     transform-origin: left center;
     transition: transform var(--dur-ui) var(--ease-brand);
   }
-  .site-header.is-scrolled {
-    background: hsl(var(--paper) / 0.92);
-    box-shadow:
-      0 1px 0 hsl(var(--brass) / 0.18),
-      0 12px 40px rgba(20, 17, 15, 0.08);
+  .site-header.is-scrolled,
+  .site-header.is-open {
+    color: hsl(var(--ink));
+    background: hsl(var(--paper) / 0.9);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 1px 0 hsl(var(--brass) / 0.18), 0 12px 40px rgba(20, 17, 15, 0.08);
+  }
+  .site-header.is-scrolled .nav-link,
+  .site-header.is-open .nav-link,
+  .site-header.is-scrolled .header-icon,
+  .site-header.is-open .header-icon {
+    color: hsl(var(--muted-foreground));
+  }
+  .site-header.is-scrolled .nav-link:hover,
+  .site-header.is-scrolled .nav-link[aria-current='page'],
+  .site-header.is-scrolled .header-icon:hover {
+    color: hsl(var(--ink));
+  }
+  .site-header.is-scrolled .nav-link::after {
+    background: hsl(var(--brass));
   }
   .site-header.is-scrolled .header-logo {
     transform: scale(0.86);
   }
 
-  /* Reading-progress hairline — scroll-driven, pure CSS, silent on old engines. */
   .scroll-progress {
     position: fixed;
     top: 0;
@@ -594,8 +583,38 @@ main:focus {
     }
   }
 
-  /* Hero entrance — pure CSS so the LCP element paints before hydration
-     (addendum §11b). Transform-only on the headline + image. */
+  /* ── Hero: full-bleed image with a slow settle (transform-only — LCP law). */
+  .cinema {
+    position: relative;
+    min-height: 100svh;
+    overflow: hidden;
+    background: hsl(var(--ink));
+  }
+  .cinema-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 55%;
+    transform: scale(1.06);
+    animation: cinema-settle 9s var(--ease-brand) both;
+  }
+  @keyframes cinema-settle {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  .cinema-veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, hsl(var(--ink) / 0.55) 0%, hsl(var(--ink) / 0) 30%, hsl(var(--ink) / 0) 55%, hsl(var(--ink) / 0.82) 100%),
+      linear-gradient(90deg, hsl(var(--ink) / 0.35) 0%, hsl(var(--ink) / 0) 60%);
+  }
   .hero-in {
     animation: hero-rise var(--dur-hero) var(--ease-brand) both;
   }
@@ -604,7 +623,7 @@ main:focus {
   }
   @keyframes hero-rise {
     from {
-      transform: translateY(22px);
+      transform: translateY(26px);
     }
     to {
       transform: translateY(0);
@@ -620,80 +639,402 @@ main:focus {
       transform: translateY(0);
     }
   }
-
-  /* Masked word reveal (ScrollFX data-fx="words") — below-fold only. */
-  .fx-word {
-    display: inline-block;
+  .scroll-cue {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: hsl(var(--paper) / 0.7);
+  }
+  .scroll-cue::after {
+    content: '';
+    width: 1px;
+    height: 3.5rem;
+    background: linear-gradient(180deg, hsl(var(--brass-soft)), transparent);
+    animation: cue-drop 2.6s var(--ease-brand) infinite;
+    transform-origin: top;
+  }
+  @keyframes cue-drop {
+    0% {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      transform: scaleY(1);
+      opacity: 0;
+    }
   }
 
-  /* Product image frame — the FRAME owns the ratio (plugin slot contract). */
-  .media-frame {
+  /* ── Full-bleed image frames (no radius, no border). */
+  .bleed-img {
     position: relative;
     overflow: hidden;
     background: hsl(var(--stone));
-    border-radius: var(--radius);
   }
-  .media-frame img {
-    height: 100%;
+  .bleed-img img {
     width: 100%;
+    height: 100%;
     object-fit: cover;
-    transition: transform 900ms var(--ease-brand), opacity var(--dur-ui) var(--ease-brand);
+    transition: transform 1.4s var(--ease-brand);
   }
-  .group:hover .media-frame img,
-  .media-frame:hover img {
-    transform: scale(1.04);
+  .group:hover .bleed-img img,
+  .bleed-img:hover img {
+    transform: scale(1.035);
   }
 
-  /* Wear scale — three stops, brass fill. */
+  /* ── Collection rail: three edge-to-edge panels, hairline dividers. */
+  .rail {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .rail {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .rail-panel {
+    position: relative;
+    display: block;
+    min-height: 72svh;
+    overflow: hidden;
+    background: hsl(var(--stone));
+    color: hsl(var(--paper));
+  }
+  @media (min-width: 900px) {
+    .rail-panel {
+      min-height: 88svh;
+    }
+    .rail-panel + .rail-panel {
+      box-shadow: -1px 0 0 hsl(var(--brass-soft) / 0.18);
+    }
+  }
+  .rail-panel img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 60%;
+    transform: scale(1.02);
+    transition: transform 1.6s var(--ease-brand), filter 1.2s var(--ease-brand);
+    filter: saturate(0.85) brightness(0.9);
+  }
+  .rail-panel:hover img {
+    transform: scale(1.07);
+    filter: saturate(1) brightness(1);
+  }
+  .rail-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, hsl(var(--ink) / 0.25) 0%, hsl(var(--ink) / 0) 40%, hsl(var(--ink) / 0.85) 100%);
+  }
+  .rail-copy {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 1;
+    padding: clamp(1.5rem, 3vw, 2.75rem);
+    transform: translateY(0.75rem);
+    transition: transform 0.9s var(--ease-brand);
+  }
+  .rail-panel:hover .rail-copy {
+    transform: translateY(0);
+  }
+  .rail-panel .rail-cta {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.6s var(--ease-brand), transform 0.6s var(--ease-brand);
+  }
+  .rail-panel:hover .rail-cta,
+  .rail-panel:focus-visible .rail-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (hover: none) {
+    .rail-panel .rail-cta {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ── Editorial product grid: no chrome, staggered middle column. */
+  .attar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: clamp(1rem, 2.5vw, 2.5rem);
+    row-gap: clamp(3rem, 6vw, 5.5rem);
+  }
+  @media (min-width: 900px) {
+    .attar-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .attar-grid.is-staggered > :nth-child(3n + 2) {
+      transform: translateY(clamp(3rem, 7vw, 6.5rem));
+    }
+  }
+  .attar {
+    display: block;
+    color: inherit;
+  }
+  .attar-media {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background: hsl(var(--stone));
+  }
+  .attar-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.01);
+    transition: transform 1.4s var(--ease-brand);
+  }
+  .attar:hover .attar-media img {
+    transform: scale(1.06);
+  }
+  .attar-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, hsl(var(--ink) / 0.35));
+    opacity: 0;
+    transition: opacity 0.8s var(--ease-brand);
+  }
+  .attar:hover .attar-media::after {
+    opacity: 1;
+  }
+  .attar-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .attar-line {
+    display: inline-block;
+    width: 0;
+    height: 1px;
+    background: hsl(var(--brass));
+    transition: width 0.7s var(--ease-brand);
+    vertical-align: middle;
+  }
+  .attar:hover .attar-line {
+    width: 2rem;
+  }
+
+  /* ── Ritual chapter: pinned image, three lines revealed by scroll. */
+  .ritual-line {
+    opacity: 0.18;
+    transform: translateY(10px);
+    transition: none;
+  }
+  .ritual-line.is-on {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ritual-line {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ── Provenance rows: large type, hairlines, hover reveals the image. */
+  .prov-row {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: clamp(1.25rem, 2.2vw, 2rem) 0;
+    border-top: 1px solid hsl(var(--paper) / 0.12);
+    color: hsl(var(--paper) / 0.72);
+    transition: color var(--dur-ui) var(--ease-brand), padding-left var(--dur-ui) var(--ease-brand);
+  }
+  .prov-row:last-child {
+    border-bottom: 1px solid hsl(var(--paper) / 0.12);
+  }
+  .prov-row:hover,
+  .prov-row.is-active {
+    color: hsl(var(--paper));
+    padding-left: 0.5rem;
+  }
+  .prov-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.6vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .prov-note {
+    grid-column: 2;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: hsl(var(--muted-dark));
+    transition: max-height 0.7s var(--ease-brand), opacity 0.6s var(--ease-brand), margin-top 0.6s var(--ease-brand);
+  }
+  .prov-row:hover .prov-note,
+  .prov-row.is-active .prov-note {
+    max-height: 6rem;
+    opacity: 1;
+    margin-top: 0.5rem;
+  }
+  @media (hover: none) {
+    .prov-note {
+      max-height: 6rem;
+      opacity: 1;
+      margin-top: 0.5rem;
+    }
+  }
+
+  /* ── PDP: sticky media column on desktop. */
+  .pdp-media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: hsl(var(--stone));
+  }
+  @media (min-width: 1024px) {
+    .pdp-media {
+      position: sticky;
+      top: var(--header-h);
+      aspect-ratio: auto;
+      height: calc(100svh - var(--header-h));
+    }
+  }
+  .pdp-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 60%;
+  }
+
   .wear-scale {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
   }
   .wear-stop {
-    height: 3px;
-    background: hsl(var(--border));
-    border-radius: 999px;
+    height: 2px;
+    background: hsl(var(--ink) / 0.14);
+  }
+  .on-dark .wear-stop {
+    background: hsl(var(--paper) / 0.16);
   }
   .wear-stop.is-on {
     background: hsl(var(--brass));
   }
 
-  /* Form inputs */
+  /* ── Forms */
   .field {
     width: 100%;
-    background: hsl(var(--paper) / 0.6);
-    border: 1px solid hsl(var(--border));
-    border-radius: 4px;
-    padding: 0.75rem 1rem;
-    font-size: 0.9375rem;
-    transition: border-color var(--dur-ui) var(--ease-brand), box-shadow var(--dur-ui) var(--ease-brand);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid hsl(var(--ink) / 0.28);
+    padding: 0.85rem 0;
+    font-size: 1rem;
+    color: inherit;
+    transition: border-color var(--dur-ui) var(--ease-brand);
   }
   .field:focus {
     outline: none;
+    border-bottom-color: hsl(var(--brass));
+  }
+  .field::placeholder {
+    color: hsl(var(--muted-foreground) / 0.7);
+  }
+  .on-dark .field {
+    border-bottom-color: hsl(var(--paper) / 0.32);
+  }
+  .on-dark .field::placeholder {
+    color: hsl(var(--muted-dark));
+  }
+  .on-dark .field:focus {
+    border-bottom-color: hsl(var(--brass-soft));
+  }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23886A3A' stroke-width='1.2'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+    padding-right: 1.5rem;
+  }
+  .field-box {
+    width: 100%;
+    background: hsl(var(--paper) / 0.6);
+    border: 1px solid hsl(var(--border));
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
+    transition: border-color var(--dur-ui) var(--ease-brand);
+  }
+  .field-box:focus {
+    outline: none;
     border-color: hsl(var(--brass));
-    box-shadow: 0 0 0 3px hsl(var(--brass) / 0.18);
   }
   .field-label {
     display: block;
-    margin-bottom: 0.4rem;
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
+    margin-bottom: 0.35rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: hsl(var(--muted-foreground));
   }
+  .on-dark .field-label {
+    color: hsl(var(--muted-dark));
+  }
 
-  /* Legal / long-form prose */
+  /* ── Custom cursor (fine pointers only; see motion/Cursor.tsx). */
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    pointer-events: none;
+    border-radius: 999px;
+    mix-blend-mode: difference;
+    will-change: transform;
+  }
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: hsl(var(--brass-soft));
+  }
+  .cursor-ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 1px solid hsl(var(--brass-soft) / 0.9);
+    transition: width 0.35s var(--ease-brand), height 0.35s var(--ease-brand), margin 0.35s var(--ease-brand), opacity 0.35s var(--ease-brand);
+  }
+  html.has-cursor .cursor-ring.is-hover {
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+  }
+  html.has-cursor .cursor-ring.is-hidden,
+  html.has-cursor .cursor-dot.is-hidden {
+    opacity: 0;
+  }
+
+  /* ── Long-form prose */
   .prose-escarpe h2 {
-    margin-top: 2.25rem;
-    font-size: 1.5rem;
+    margin-top: 2.5rem;
+    font-size: 1.6rem;
   }
   .prose-escarpe h3 {
-    margin-top: 1.5rem;
-    font-size: 1.2rem;
+    margin-top: 1.6rem;
+    font-size: 1.25rem;
   }
   .prose-escarpe p {
-    margin-top: 0.9rem;
+    margin-top: 1rem;
   }
   .prose-escarpe ul {
     list-style: disc;
@@ -709,7 +1050,7 @@ main:focus {
     margin-top: 0.3rem;
   }
   .prose-escarpe a {
-    color: hsl(var(--brass));
+    color: hsl(var(--brass-deep));
     text-decoration: underline;
     text-underline-offset: 3px;
   }
@@ -718,12 +1059,16 @@ main:focus {
     font-weight: 600;
   }
   .prose-escarpe img {
-    border-radius: var(--radius);
     margin-top: 1.25rem;
+  }
+  .prose-escarpe em {
+    color: hsl(var(--muted-foreground));
+  }
+  .fx-word {
+    display: inline-block;
   }
 }
 
-/* Reduced motion — global kill switch every effect obeys. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -733,11 +1078,14 @@ main:focus {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .dusk::before {
+  .dusk::before,
+  .cinema-img,
+  .hero-in,
+  .hero-in-fade,
+  .scroll-cue::after {
     animation: none;
   }
-  .hero-in,
-  .hero-in-fade {
-    animation: none;
+  .cinema-img {
+    transform: none;
   }
 }

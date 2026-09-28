@@ -111,21 +111,18 @@ export default function ProductsListing({
     }
   };
 
-  const pill = (active: boolean) =>
-    `rounded-sm border px-4 py-2 text-[0.6875rem] font-medium uppercase tracking-[0.14em] transition-colors ${
-      active ? 'border-ink bg-ink text-paper' : 'border-border text-muted-foreground hover:border-brass hover:text-ink'
-    }`;
+  const pill = (active: boolean) => `nav-link !pb-1 ${active ? 'text-ink' : ''}`;
 
   return (
     <>
-      <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+      <div className="mb-[clamp(3rem,6vw,5rem)] flex flex-col gap-6 border-b border-ink/12 pb-6 md:flex-row md:items-end md:justify-between">
         {!fixedCategorySlug ? (
-          <div className="flex flex-wrap gap-2">
-            <button onClick={() => setCategory('')} className={pill(!activeCategorySlug)}>
+          <div className="flex flex-wrap gap-x-7 gap-y-3">
+            <button onClick={() => setCategory('')} className={pill(!activeCategorySlug)} aria-current={!activeCategorySlug ? 'page' : undefined}>
               All
             </button>
             {categories.map((cat) => (
-              <button key={cat._id} onClick={() => setCategory(cat.slug)} className={pill(activeCategorySlug === cat.slug)}>
+              <button key={cat._id} onClick={() => setCategory(cat.slug)} className={pill(activeCategorySlug === cat.slug)} aria-current={activeCategorySlug === cat.slug ? 'page' : undefined}>
                 {cat.name}
               </button>
             ))}
@@ -141,14 +138,14 @@ export default function ProductsListing({
               aria-label="Search attars"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="field w-44 py-2 text-sm"
+              className="field w-44 py-1.5 text-sm"
             />
           </form>
           <select
             value={`${initialSortBy}_${initialSortOrder}`}
             onChange={(e) => setSort(e.target.value)}
             aria-label="Sort"
-            className="field w-auto py-2 text-sm"
+            className="field w-auto py-1.5 text-sm"
           >
             <option value="createdAt_asc">House order</option>
             <option value="createdAt_desc">Newest</option>
@@ -166,9 +163,11 @@ export default function ProductsListing({
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
+          <div className="attar-grid is-staggered">
             {products.map((p, i) => (
-              <ProductCard key={p._id} product={p} eager={i < 2} />
+              <div key={p._id} data-fx="rise">
+                <ProductCard product={p} eager={i < 2} />
+              </div>
             ))}
           </div>
           {meta.page < meta.totalPages && (

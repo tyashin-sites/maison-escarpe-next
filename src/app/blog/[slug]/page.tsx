@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import { api, ApiError } from '@/lib/api';
 import { pageMetadata, siteUrl, SITE } from '@/lib/seo';
 import type { BlogPost } from '@/lib/types';
@@ -109,9 +108,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       : post.content;
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
+    <PageFrame>
         <article className="container-x max-w-3xl py-10 md:py-16">
           <Link
             href="/blog"
@@ -179,13 +176,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           <MoreFromTheBlog currentSlug={post.slug} />
         </article>
-      </main>
-      <Footer />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-    </div>
+    </PageFrame>
   );
 }
 

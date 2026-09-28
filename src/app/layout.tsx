@@ -6,6 +6,7 @@ import LegalFooterBar from '@/components/LegalFooterBar';
 import { ScrollFX } from '@/components/motion/ScrollFX';
 import { PointerFX } from '@/components/motion/PointerFX';
 import { HeaderFX } from '@/components/motion/HeaderFX';
+import { Cursor } from '@/components/motion/Cursor';
 import { api } from '@/lib/api';
 import { SITE, siteUrl } from '@/lib/seo';
 import type { StoreInfo, ApiCategory } from '@/lib/types';
@@ -103,6 +104,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ScrollFX />
         <PointerFX />
         <HeaderFX />
+        <Cursor />
       </body>
     </html>
   );

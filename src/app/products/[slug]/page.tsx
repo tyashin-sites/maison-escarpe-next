@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import Breadcrumbs, { type Crumb } from '@/components/Breadcrumbs';
 import DeliveryReturns from '@/components/DeliveryReturns';
 import RelatedProducts from '@/components/RelatedProducts';
@@ -185,32 +184,30 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     { label: product.name },
   ];
 
+  const isDiscovery = product.tags.some((t) => /discovery|sample/.test(t));
+
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
-        <div className="container-x py-8 md:py-12">
-          <Breadcrumbs crumbs={crumbs} />
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-            <ProductDetailClient
-              product={product}
-              facts={facts}
-              tierLabel={categorySlug ? TIER_LABEL[categorySlug] : categoryName}
-            />
-          </div>
+    <PageFrame>
+      <div className="container-x pt-6">
+        <Breadcrumbs crumbs={crumbs} />
+      </div>
+      <ProductDetailClient
+        product={product}
+        facts={facts}
+        tierLabel={categorySlug ? TIER_LABEL[categorySlug] : categoryName}
+        sizeLabel={isDiscovery ? '4 × 1 ml' : '30 ml'}
+      />
 
-          <AttarFacts facts={facts} />
+      <AttarFacts facts={facts} />
 
-          <div className="mx-auto mt-12 max-w-3xl">
-            <DeliveryReturns />
-          </div>
-
-          <ReviewsSection productId={product._id} />
-          <RelatedProducts slug={product.slug} currency={currency} />
+      <div className="container-x py-[clamp(4rem,8vw,7rem)]">
+        <div className="max-w-3xl">
+          <DeliveryReturns />
         </div>
-      </main>
-      <Footer />
+        <ReviewsSection productId={product._id} />
+        <RelatedProducts slug={product.slug} currency={currency} />
+      </div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
-    </div>
+    </PageFrame>
   );
 }

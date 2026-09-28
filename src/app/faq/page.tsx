@@ -1,12 +1,11 @@
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
   title: 'Questions',
   description:
-    'How to wear an oil attar, why the bottle separates, how long it lasts, shipping to Canada and the United States, allergens and returns — answered by Maison Escarpe.',
+    'How to wear an oil attar, why the flacon separates, how long it lasts, shipping to Canada and the United States, allergens and returns — answered by Maison Escarpe.',
   path: '/faq',
 });
 
@@ -55,11 +54,9 @@ export default async function FaqPage() {
     : null;
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
-        <section className="border-b border-brass/20 bg-paper">
-          <div className="container-x py-14 md:py-20">
+    <PageFrame>
+        <section className="bg-paper">
+          <div className="container-x pb-[clamp(2rem,4vw,3.5rem)] pt-[clamp(3rem,7vw,6rem)]">
             <p className="eyebrow">Questions</p>
             <h1 className="tt-1 mt-5 max-w-3xl text-ink">Everything we are asked, answered once.</h1>
           </div>
@@ -91,9 +88,7 @@ export default async function FaqPage() {
             )}
           </div>
         </section>
-      </main>
-      <Footer />
       {jsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />}
-    </div>
+    </PageFrame>
   );
 }

@@ -1,5 +1,4 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import PaginationNav from '@/components/PaginationNav';
 import ProductsListing from './ProductsListing';
 import { api } from '@/lib/api';
@@ -50,20 +49,18 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
-        <section className="border-b border-brass/20 bg-paper">
-          <div className="container-x py-14 md:py-20">
+    <PageFrame>
+        <section className="bg-paper">
+          <div className="container-x pb-[clamp(2rem,4vw,3.5rem)] pt-[clamp(3rem,7vw,6rem)]">
             <p className="eyebrow">The attars</p>
             <h1 className="tt-1 mt-5 max-w-3xl text-ink">One oil, worn twelve ways.</h1>
             <p className="lead mt-4 max-w-2xl">
-              Every bottle is the same forty percent concentrate. Choose by the oud behind it, the season, and how
-              far you want it to carry.
+              Every flacon is the same forty percent concentrate, thirty millilitres, numbered. Choose by the oud behind
+              it, the season, and how far you want it to carry.
             </p>
           </div>
         </section>
-        <section className="section pt-10 md:pt-14">
+        <section className="pb-[clamp(6rem,12vw,11rem)] pt-4">
           <div className="container-x">
             <ProductsListing
               initialProducts={initialProducts}
@@ -87,8 +84,6 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
             />
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+      </PageFrame>
   );
 }

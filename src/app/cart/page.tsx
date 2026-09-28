@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Trash2, Minus, Plus } from 'lucide-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import { useCart, useStore, toast, toastError } from '@/components/Providers';
 import { formatPrice } from '@/lib/format';
 import { getOrderNote, setOrderNote, ORDER_NOTE_EVENT } from '@/lib/order-note';
@@ -76,10 +75,8 @@ export default function CartPage() {
   const currency = cart?.currency || 'CAD';
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
-        <section className="border-b border-brass/20 bg-paper">
+    <PageFrame>
+        <section className="bg-paper">
           <div className="container-x py-12 md:py-16">
             <p className="eyebrow">Cart</p>
             <h1 className="tt-1 mt-5 text-ink">What you are taking inside.</h1>
@@ -262,8 +259,6 @@ export default function CartPage() {
             )}
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+      </PageFrame>
   );
 }

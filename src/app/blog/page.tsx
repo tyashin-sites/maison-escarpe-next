@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import PaginationNav from '@/components/PaginationNav';
 import { api } from '@/lib/api';
 import { pageMetadata } from '@/lib/seo';
@@ -38,11 +37,9 @@ export default async function BlogIndexPage({ searchParams }: { searchParams: Pr
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
-        <section className="border-b border-brass/20 bg-paper">
-          <div className="container-x py-14 md:py-20">
+    <PageFrame>
+        <section className="bg-paper">
+          <div className="container-x pb-[clamp(2rem,4vw,3.5rem)] pt-[clamp(3rem,7vw,6rem)]">
             <p className="eyebrow">Journal</p>
             <h1 className="tt-1 mt-5 max-w-3xl text-ink">
               {sp.tag ? `Entries tagged “${sp.tag}”` : sp.category ? sp.category : 'Notes from the house.'}
@@ -83,8 +80,6 @@ export default async function BlogIndexPage({ searchParams }: { searchParams: Pr
             <PaginationNav currentPage={meta.page} totalPages={meta.totalPages} basePath="/blog" params={{ ...(sp.tag ? { tag: sp.tag } : {}), ...(sp.category ? { category: sp.category } : {}) }} />
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+      </PageFrame>
   );
 }

@@ -61,7 +61,7 @@ export default function ReservationCheckout({ cart, currency }: { cart: Cart; cu
         <p className="eyebrow">Reserved</p>
         <h2 className="mt-4 font-display text-3xl text-paper">Your allocation is held.</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-dark">
-          The house will write to {form.email} to confirm the bottles, the batch and payment. Nothing is charged
+          The house will write to {form.email} to confirm the flacons, the batch and payment. Nothing is charged
           until you reply.
         </p>
         <Link href="/products" className="btn-link mt-8 text-paper">
@@ -78,7 +78,7 @@ export default function ReservationCheckout({ cart, currency }: { cart: Cart; cu
           <h3 className="mb-2 font-display text-xl text-ink">How reservations work</h3>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Payment is not yet taken on the site. Leave your details and the house confirms your allocation by
-            email with a secure payment link. Bottles are held for seven days.
+            email with a secure payment link. Flacons are held for seven days.
           </p>
         </div>
         <div className="card p-6">

@@ -1,12 +1,10 @@
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" className="on-dark grain flex flex-1 flex-col items-center justify-center bg-ink px-6 py-32 text-center">
+    <PageFrame tone="dark">
+      <div className="on-dark grain flex min-h-[100svh] flex-col items-center justify-center bg-ink px-6 py-32 text-center">
         <p className="eyebrow eyebrow-center">Not here</p>
         <h1 className="tt-display mt-6 text-paper" style={{ fontSize: 'clamp(2.4rem, 6vw, 4.5rem)' }}>
           This wall has no door.
@@ -20,8 +18,7 @@ export default function NotFound() {
             The attars
           </Link>
         </div>
-      </main>
-      <Footer />
-    </div>
+      </div>
+    </PageFrame>
   );
 }

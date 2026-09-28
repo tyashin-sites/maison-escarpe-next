@@ -3,7 +3,7 @@ import LegalPageRenderer from '../_legal/LegalPageRenderer';
 
 export const metadata: Metadata = {
   title: 'Shipping & Returns',
-  description: 'Shipping across Canada and the United States, and how returns on sealed bottles work.',
+  description: 'Shipping across Canada and the United States. All sales are final once an order has shipped.',
 };
 
 export default function Page() {

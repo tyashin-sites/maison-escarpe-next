@@ -38,14 +38,15 @@
 - Say "shake gently" as a ritual and a proof of naturalness (no solubilisers, no stabilisers), shown in
   macro imagery, paired with "hand-filled by weight".
 
-## Price ladder (CAD, placeholder — ASSET-DEBT #3)
-| Tier | 3 ml | 12 ml (hero) |
-|---|---|---|
-| Signature (6) | C$145 | C$495 |
-| Reserve (4) | C$195 | C$695 |
-| Private Blend (2, numbered) | C$325 | C$1,150 |
-| The Wall — discovery 4 × 1 ml | C$95, fully credited toward a 12 ml within 60 days | |
-No 50 ml oil (signals Gulf CPO). Sell cost-per-wear: one swipe ≈ 0.01 ml, so 12 ml ≈ 1,200 wears.
+## Price ladder (CAD, placeholder — ASSET-DEBT #3) — 30 ml only, per the customer (2026-09-27)
+| Tier | 30 ml flacon |
+|---|---|
+| Signature (6) | C$1,150 |
+| Reserve (4) | C$1,650 |
+| Private Blend (2, numbered) | C$2,750 |
+| The Wall — discovery 4 × 1 ml | C$95, fully credited toward a 30 ml flacon within 60 days |
+Above the C$700–800 tickets of the inspiration houses in absolute price, and 30 ml of oil at forty percent is a different object from 100 ml of spray. Sell cost-per-wear: two sprays ≈ 0.1 ml, so 30 ml ≈ 300 wears.
+Returns: none once shipped (customer directive); damaged or wrong items replaced within 7 days.
 
 ## Zero-budget playbook (in order)
 1. Founder-authored long-form on the domain: "why 40%", "how to wear attar oil", "what oud costs" (Journal).

@@ -59,7 +59,10 @@ const config: Config = {
           foreground: 'hsl(var(--card-foreground) / <alpha-value>)',
         },
         // Maison Escarpe palette (DESIGN-SPEC)
-        ink: 'hsl(var(--ink) / <alpha-value>)',
+        ink: {
+          DEFAULT: 'hsl(var(--ink) / <alpha-value>)',
+          deep: 'hsl(var(--ink-deep) / <alpha-value>)',
+        },
         stone: {
           DEFAULT: 'hsl(var(--stone) / <alpha-value>)',
           light: 'hsl(var(--stone-light) / <alpha-value>)',

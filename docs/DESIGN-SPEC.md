@@ -1,7 +1,7 @@
 # Maison Escarpe — Design Spec (single source of truth; deviations are bugs)
 
 ## Thesis
-**"Dolostone & Dusk."** The Niagara Escarpment at the last hour of light; oil the colour of the cliff face.
+**"Dolostone & Dusk" — v2, cinematic (2026-09-27).** The Niagara Escarpment at the last hour of light; oil the colour of the cliff face. v1 was a store wearing the palette; v2 is chapters: every home section is full-bleed, the product grid has no chrome, and ONE flacon appears in every image.
 Maison Escarpe is a Canadian house of oil-based oud attars at forty percent concentrate. The site must feel like
 a wall you have been let inside of: warm-dark, mineral, unhurried, lit by one hard tungsten light. Luxury here is
 derived from *place and time* (400-million-year-old rock, resin a tree spent decades making), not from royalty
@@ -32,7 +32,7 @@ Shadows are ink-tinted, never gray: rest `0 1px 2px rgba(20,17,15,.08), 0 8px 24
 ≤8% ink→stone wash and the aurora glow behind the hero object; garnet as text.
 
 ## Typography (Google Fonts via `next/font`, self-hosted)
-- **Display: Bodoni Moda** (variable, `opsz` axis) — weights 400/500 + italic. Hierarchy by size + space, weight ≤500 at display sizes.
+- **Display: Bodoni Moda** — weights 400/500 + italic. Hierarchy by size + space, weight ≤500 at display sizes. Display tier reaches 8rem on desktop; the numeral tier (the "40") reaches 20rem.
   Tracking `-0.02em` above 40px, `+0.02em` at small caps. Line-height ≥ 1.05 always. Old-style numerals for batch numbers.
 - **Wordmark:** two-line lockup — `MAISON` (Manrope 500, 10px, tracking +0.32em) above `ESCARPE` (Bodoni Moda 500 small caps, tracking +0.22em) — never an image, never a crest.
 - **UI/body: Manrope** 300–600 — nav 13px/`+0.14em` uppercase, body 16px/1.65, buttons 500 `+0.12em` uppercase, prices
@@ -43,20 +43,17 @@ Shadows are ink-tinted, never gray: rest `0 1px 2px rgba(20,17,15,.08), 0 8px 24
 
 ## Space, grid, surfaces
 Section rhythm `clamp(5.5rem, 11vw, 9.5rem)`; container `max-w-7xl` (80rem) with `px-6 md:px-10`; product grid 2/3/4 cols (gap 16/24px).
-Radius language is **architectural**: cards `0.375rem` (6px), buttons `2px` (near-square pill — a stone edge, not a capsule), inputs `4px`.
+Radius is **zero** everywhere: images bleed to hard edges, buttons and inputs are square (a stone edge, not a capsule). Product tiles carry no border, no background, no button.
 Hairlines are 1px brass gradients fading both ways. Dark sections carry a 4% film-grain overlay; light sections none.
 
 ## Motion (tier 2 — GSAP system per tyashin-luxury-website; every effect obeys `prefers-reduced-motion`)
 One ease `cubic-bezier(0.22, 1, 0.36, 1)` shared by CSS + GSAP ('brand' CustomEase). Durations micro 150 / ui 300 / reveal 900 / hero 1100.
-**Signature moments (exactly three — anti-sameness vs. the Thridify and Knotty builds):**
-1. **Dusk aurora** — a slow (28s) brass/garnet radial drift behind the hero bottle, transform/opacity only, paused when off-screen.
-2. **Settle & wake** — the below-fold "Shake to awaken" panel: an SVG bottle whose two oil layers mix as the visitor scrolls
-   (ScrollTrigger scrub, transform-only), ending on the ritual line. Mobile: same, unpinned.
-3. **Brass spotlight + magnetic reserve CTA** — PointerFX card spotlight tinted brass (13%), primary CTAs lean ≤5px. Fine pointers only.
-Plus the standard entrances (rise + blur-settle at 88%, once), masked word reveal on the manifesto (below fold only), header
-condense by logo scale (bar height constant — CLS law), route rise-into-focus.
-**LCP law:** the hero h1 and hero image are never opacity-0; they animate transform-only.
-**Banned:** parallax > 0.2, cursor followers with trails, scroll-jacking, bounce easings, autoplay video above the fold.
+**Signature moments (three — anti-sameness vs. the Thridify and Knotty builds):**
+1. **Cinema hero** — 100svh full-bleed plate with the flacon on the ledge, a nine-second transform-only settle (LCP law), headline set over the image, scroll cue.
+2. **The ritual, pinned** — the resin macro pins while three numbered lines light up in scroll order (scrubbed class toggles; unpinned on mobile / reduced motion).
+3. **Brass cursor** — a dot with a lagging ring on fine pointers, growing over links; plus PointerFX spotlight on the remaining cards.
+Plus rise + blur entrances at 88%, masked word reveals below the fold, header that starts transparent over dark heroes and becomes paper glass on scroll (height constant — CLS law), route rise-into-focus.
+**Banned:** parallax > 0.2, cursor trails, scroll-jacking, bounce easings, autoplay video above the fold, rounded cards, bordered product tiles.
 
 ## Imagery
 All launch imagery is **AI-generated placeholder** (gpt-image-2 via the platform) in one photographic system: tungsten 3200K raking key,

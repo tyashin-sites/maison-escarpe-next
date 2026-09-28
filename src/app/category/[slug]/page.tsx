@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import ProductsListing from '@/app/products/ProductsListing';
 import PaginationNav from '@/components/PaginationNav';
 import { api, ApiError } from '@/lib/api';
@@ -66,11 +65,9 @@ export default async function CategoryLandingPage({
   const siblings = categories.filter((c) => c.slug !== slug);
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
-        <section className="border-b border-brass/20 bg-paper">
-          <div className="container-x py-14 md:py-20">
+    <PageFrame>
+        <section className="bg-paper">
+          <div className="container-x pb-[clamp(2rem,4vw,3.5rem)] pt-[clamp(3rem,7vw,6rem)]">
             <p className="eyebrow">Collection</p>
             <h1 className="tt-1 mt-5 text-ink">{category.name}</h1>
             <p className="lead mt-4 max-w-2xl">{category.description || TIER_LINE[slug] || ''}</p>
@@ -85,7 +82,7 @@ export default async function CategoryLandingPage({
             )}
           </div>
         </section>
-        <section className="section pt-10 md:pt-14">
+        <section className="pb-[clamp(6rem,12vw,11rem)] pt-4">
           <div className="container-x">
             <ProductsListing
               initialProducts={products}
@@ -109,8 +106,6 @@ export default async function CategoryLandingPage({
             />
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+      </PageFrame>
   );
 }

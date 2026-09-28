@@ -27,24 +27,22 @@ export default async function RelatedProducts({ slug, currency = 'CAD' }: { slug
   if (related.length === 0) return null;
 
   return (
-    <section className="mt-20 md:mt-28">
+    <section className="mt-[clamp(4rem,8vw,7rem)]">
       <SectionHeading eyebrow="Also from the house" title="Other attars to wear against it" />
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-        {related.slice(0, 8).map((p) => (
-          <Link key={p.id ?? p.slug} href={`/products/${encodeURIComponent(p.slug)}`} className="card group overflow-hidden">
-            <div className="media-frame aspect-[2/3]">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
+        {related.slice(0, 4).map((p) => (
+          <Link key={p.id ?? p.slug} href={`/products/${encodeURIComponent(p.slug)}`} className="attar group">
+            <div className="attar-media">
               {p.thumbnailUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={optimizedSrc(p.thumbnailUrl, 450)} alt={p.name} loading="lazy" width={450} height={675} />
+                <img src={optimizedSrc(p.thumbnailUrl, 500)} alt={p.name} loading="lazy" width={500} height={750} />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-xs text-muted-dark">{p.name}</div>
               )}
             </div>
-            <div className="p-4">
-              <h3 className="font-display text-lg leading-tight text-ink">{p.name}</h3>
-              {typeof p.price === 'number' && (
-                <p className="tt-price mt-1.5 text-xs text-muted-foreground">from {formatPriceExplicit(p.price, currency)}</p>
-              )}
+            <div className="mt-4 flex items-baseline justify-between gap-4">
+              <h3 className="attar-name text-ink">{p.name}</h3>
+              {typeof p.price === 'number' && <p className="tt-price shrink-0 text-xs text-ink/80">{formatPriceExplicit(p.price, currency)}</p>}
             </div>
           </Link>
         ))}

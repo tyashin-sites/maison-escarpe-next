@@ -3,8 +3,7 @@
 import Script from 'next/script';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import { useCart, useStore, toast, toastError } from '@/components/Providers';
 import { api } from '@/lib/api';
 import { formatPrice } from '@/lib/format';
@@ -389,10 +388,8 @@ export default function CheckoutPage() {
     <>
       {/* Razorpay checkout script — only loaded on this page */}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <main id="main" tabIndex={-1} className="flex-1">
-          <section className="border-b border-brass/20 bg-paper">
+      <PageFrame>
+          <section className="bg-paper">
             <div className="container-x py-12 md:py-16">
               <p className="eyebrow">{enabledMethods.length === 0 ? 'Reservation' : 'Checkout'}</p>
               <h1 className="tt-1 mt-5 text-ink">
@@ -611,9 +608,7 @@ export default function CheckoutPage() {
               )}
             </div>
           </section>
-        </main>
-        <Footer />
-      </div>
+      </PageFrame>
     </>
   );
 }

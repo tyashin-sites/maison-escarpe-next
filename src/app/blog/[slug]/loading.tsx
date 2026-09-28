@@ -1,13 +1,10 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 
 // Instant skeleton shown the moment a post link is clicked (Suspense), so
 // navigation always feels immediate even on a cold render.
 export default function BlogPostLoading() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main className="flex-1">
+    <PageFrame>
         <article className="container mx-auto max-w-3xl px-4 py-8 md:py-12">
           <div className="mb-6 h-4 w-24 animate-pulse rounded bg-cream" />
           <div className="mb-3 h-3 w-32 animate-pulse rounded bg-cream" />
@@ -24,8 +21,6 @@ export default function BlogPostLoading() {
             ))}
           </div>
         </article>
-      </main>
-      <Footer />
-    </div>
+      </PageFrame>
   );
 }

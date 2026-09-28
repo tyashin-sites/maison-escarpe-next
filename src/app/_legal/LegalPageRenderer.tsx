@@ -1,5 +1,4 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import { notFound } from 'next/navigation';
 
 const PROJECT_ID = process.env.PROJECT_ID || '6ab98d8af53db5cdd5d093f3';
@@ -30,11 +29,9 @@ export default async function LegalPageRenderer({ slug }: { slug: string }) {
   if (!page) notFound();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
-        <section className="border-b border-brass/20 bg-paper">
-          <div className="container-x py-14 md:py-20">
+    <PageFrame>
+        <section className="bg-paper">
+          <div className="container-x pb-[clamp(2rem,4vw,3.5rem)] pt-[clamp(3rem,7vw,6rem)]">
             <p className="eyebrow">Terms</p>
             <h1 className="tt-1 mt-5 text-ink">{page.title}</h1>
           </div>
@@ -47,8 +44,6 @@ export default async function LegalPageRenderer({ slug }: { slug: string }) {
             )}
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+      </PageFrame>
   );
 }

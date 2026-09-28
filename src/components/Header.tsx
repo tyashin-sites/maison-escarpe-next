@@ -16,75 +16,64 @@ const NAV_LINKS = [
   { label: 'Journal', href: '/blog' },
 ];
 
-export default function Header() {
+/**
+ * Header. `tone="dark"` on pages that open with a full-bleed dark hero: the
+ * bar starts transparent with paper text and becomes paper glass once the
+ * visitor scrolls (HeaderFX toggles .is-scrolled). Height never changes.
+ */
+export default function Header({ tone = 'light' }: { tone?: 'light' | 'dark' }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { itemCount } = useCart();
   const pathname = usePathname();
 
   return (
-    <header className="site-header sticky top-0 z-50 bg-paper/80 backdrop-blur-md">
+    <header className={`site-header fixed inset-x-0 top-0 z-50 ${mobileOpen ? 'is-open' : ''}`} data-tone={tone}>
       <div className="container-x flex h-full items-center justify-between">
-        <Link href="/" className="header-logo text-ink">
+        <Link href="/" className="header-logo">
           <Wordmark />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="nav-link"
-              aria-current={pathname === link.href ? 'page' : undefined}
-            >
+            <Link key={link.href} href={link.href} className="nav-link" aria-current={pathname === link.href ? 'page' : undefined}>
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <Link
-            href="/cart"
-            className="relative p-2 text-muted-foreground transition-colors hover:text-ink"
-            aria-label={`Cart${itemCount > 0 ? `, ${itemCount} items` : ''}`}
-          >
-            <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
+        <div className="flex items-center gap-1">
+          <Link href="/cart" className="header-icon relative p-2 transition-colors" aria-label={`Cart${itemCount > 0 ? `, ${itemCount} items` : ''}`}>
+            <ShoppingBag className="h-5 w-5" strokeWidth={1.25} />
             {itemCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4.5 min-w-[18px] items-center justify-center rounded-full bg-brass px-1 text-[10px] font-semibold text-ink">
+              <span className="absolute -right-0.5 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass px-1 text-[10px] font-semibold text-ink">
                 {itemCount}
               </span>
             )}
           </Link>
           <button
-            className="p-2 text-muted-foreground lg:hidden"
+            className="header-icon p-2 lg:hidden"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
           >
-            {mobileOpen ? <X className="h-5 w-5" strokeWidth={1.5} /> : <Menu className="h-5 w-5" strokeWidth={1.5} />}
+            {mobileOpen ? <X className="h-5 w-5" strokeWidth={1.25} /> : <Menu className="h-5 w-5" strokeWidth={1.25} />}
           </button>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="absolute inset-x-0 top-full border-t border-brass/20 bg-paper lg:hidden">
+        <div className="absolute inset-x-0 top-full border-t border-brass/20 bg-paper text-ink lg:hidden">
           <nav className="flex flex-col py-3" aria-label="Mobile">
-            {NAV_LINKS.map((link) => (
+            {[...NAV_LINKS, { label: 'Contact', href: '/contact' }].map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="px-6 py-3 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:bg-paper-deep hover:text-ink"
+                className="px-6 py-3.5 font-display text-2xl text-ink transition-colors hover:bg-paper-deep"
               >
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/contact"
-              onClick={() => setMobileOpen(false)}
-              className="px-6 py-3 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:bg-paper-deep hover:text-ink"
-            >
-              Contact
-            </Link>
           </nav>
         </div>
       )}

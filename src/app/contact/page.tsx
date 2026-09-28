@@ -1,5 +1,4 @@
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import PageFrame from '@/components/PageFrame';
 import ContactForm from './ContactForm';
 import { pageMetadata, SITE } from '@/lib/seo';
 
@@ -17,11 +16,9 @@ export const metadata = pageMetadata({
  */
 export default function ContactPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main id="main" tabIndex={-1} className="flex-1">
-        <section className="border-b border-brass/20 bg-paper">
-          <div className="container-x py-14 md:py-20">
+    <PageFrame>
+        <section className="bg-paper">
+          <div className="container-x pb-[clamp(2rem,4vw,3.5rem)] pt-[clamp(3rem,7vw,6rem)]">
             <p className="eyebrow">Contact</p>
             <h1 className="tt-1 mt-5 max-w-3xl text-ink">Write to the house.</h1>
             <p className="lead mt-4 max-w-2xl">
@@ -62,8 +59,6 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+      </PageFrame>
   );
 }
